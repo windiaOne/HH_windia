@@ -410,7 +410,7 @@ function ButtonClickAction (enButtonEvent) {
 		let result;
 		//abgefragter Wert ist nur der "alpha im Kampf" erstmal
 		//result = new Object();
-		result  = Math.round((player2ndStat/2 + player3rdStat/2 + 1.5* alpha2nd + 1.5* alpha3rd) / 2);
+		result  = Math.floor((player2ndStat/2 + player3rdStat/2 + 1.5* alpha2nd + 1.5* alpha3rd) / 2);
 		//result.alphaBeta = result.alpha + 1.75* beta1st;
 		//result.alphaBetaOmega = result.alphabeta + omega1st;
 
@@ -419,14 +419,14 @@ function ButtonClickAction (enButtonEvent) {
 
 	function calculateDefSideX(heroXStat, alphaX){
 		let result;
-		result = Math.round(heroXStat/2 + 1.5* alphaX);
+		result = Math.floor(heroXStat/2 + 1.5* alphaX);
 
 		return result;
 	}
 
 	function calculateEgo(endurance, alpha1st) {
 		let result;
-		result = Math.round(endurance + 11*alpha1st);
+		result = Math.floor(endurance + 11*alpha1st);
 		return result;
 	}
 
@@ -612,6 +612,7 @@ function ButtonClickAction (enButtonEvent) {
 
             text: 'Player',
         };
+        console.log('createdPlayer: '+'ego: '+player.ego+' atk: '+player.atk+' def: '+player.def+' exc: '+player.excitement);
 
 		let result;
 		result = player;
@@ -753,8 +754,8 @@ function ButtonClickAction (enButtonEvent) {
 			resultArray.result[girlsCombinations][jequip] = resultValue.pointsStr + ' & ' + resultValue.scoreStr;
 		}
 	}
-	
-	function createTable(girls, girlsCombinations){
+
+    function createTable(girls, girlsCombinations){
 		//Hero.infos.level
         //reduced to 7 setups from 6 Multi to 6 Mono
         tableTemp = '<table>';
@@ -844,11 +845,9 @@ function ButtonClickAction (enButtonEvent) {
     for(i=0; i<zeilen; i++){
         tablei = tablei + '<tr>';
         for (j=0; j<spalten;j++){
-            if (Hero.infos.id == 1375928) {
+            if (Hero.infos.id == idTestHeh) {
                 zeug = i+j;
-            } else if (Hero.infos.id == 959708) {
-                zeug = i*j;
-            } else {zeug = 2*(i+j);}
+            } 
             tablei = tablei + '<td>' + zeug + ' & ' + tablea.result[i][j] + '|</td>';
         }
         tablei = tablei + '</tr>';
@@ -858,9 +857,9 @@ function ButtonClickAction (enButtonEvent) {
 
     //createOpponent();
 
-    if (Hero.infos.id == 1375928) {
+    if (Hero.infos.id == idNutaku) {
                 doNutaku();
-            } else if (Hero.infos.id == 959708) {
+            } else if (Hero.infos.id == idHeh) {
                 doHeh();
             } else {alert('Testtest');}
 
