@@ -242,32 +242,150 @@ function ButtonClickAction (enButtonEvent) {
 	function setGirlsNutaku(){
 		let girls = new Array();
 		girls[0] = new Object();
-		girls[0]['Name'] = 'Alexa';
-		girls[0]['upgradedHC'] = 6.16*Hero.infos.level;
-		girls[0]['upgradedCH'] = 7.28*Hero.infos.level;
-		girls[0]['upgradedKH'] = 15.12*Hero.infos.level;
-		girls[0]['excitement'] = (girls[0].upgradedHC + girls[0].upgradedCH + girls[0].upgradedKH)*28;
-		//endurance muss noch addiert werden
-		girls[0]['egoPart'] = girls[0].upgradedKH*11;
-
+		girls[0].name = 'Alexa';
+		girls[0]['HC'] = 6.16*Hero.infos.level;
+		girls[0]['CH'] = 7.28*Hero.infos.level;
+		girls[0]['KH'] = 15.12*Hero.infos.level;
 
 		girls[1] = new Object();
-		girls[1]['Name'] = 'Any';
-		girls[1]['upgradedHC'] = 6.25*Hero.infos.level;
-		girls[1]['upgradedCH'] = 4*Hero.infos.level;
-		girls[1]['upgradedKH'] = 13.5*Hero.infos.level;
-		girls[1]['excitement'] = (girls[1].upgradedHC + girls[1].upgradedCH + girls[1].upgradedKH)*28;
-		//endurance muss noch addiert werden
-		girls[1]['egoPart'] = girls[1].upgradedKH*11;
+		girls[1].name = 'Any';
+		girls[1].HC = 6.25*Hero.infos.level;
+		girls[1].CH = 4*Hero.infos.level;
+		girls[1].KH = 13.5*Hero.infos.level;
 
 		girls[2] = new Object();
-		girls[2].Name = 'Harmonia';
-		girls[2].upgradedHC = 3.75*Hero.infos.level;
-		girls[2].upgradedCH = 7.5*Hero.infos.level;
-		girls[2].upgradedKH = 13.25*Hero.infos.level;
-		girls[2].excitement = (girls[2].upgradedHC + girls[2].upgradedCH + girls[2].upgradedKH)*28;
-		//endurance muss noch addiert werden
-		girls[2].egoPart = girls[2].upgradedKH*11;
+		girls[2].name = 'Harmonia';
+		girls[2].HC = 3.75*Hero.infos.level;
+		girls[2].CH = 7.5*Hero.infos.level;
+		girls[2].KH = 13.25*Hero.infos.level;
+
+		return girls;
+	}
+	// each server needs equipment and girls to be setup
+	function setEquimentHeh(){
+		//not sure if rewrite is neccessary to get complete simulation
+		//first 6 multi, then 6 mono
+		let equipment = new Array();
+		equipment[0] = new Object();
+		equipment[0]['Position'] = 'RT'; //rechtsoben
+		equipment[0]['HC'] = 3032;
+		equipment[0]['CH'] = 3033;
+		equipment[0]['KH'] = 2986;
+		equipment[0]['luck'] = 3970;
+		equipment[0]['endur'] = 3038;
+
+		equipment[1] = new Object();
+		equipment[1]['Position'] = 'LB'; //linksunten
+		equipment[1]['HC'] = 3081;
+		equipment[1]['CH'] = 3069;
+		equipment[1]['KH'] = 2975;
+		equipment[1]['luck'] = 4007;
+		equipment[1]['endur'] = 2874;
+
+		equipment[2] = new Object();
+		equipment[2]['Position'] = 'LT';//linksoben
+		equipment[2]['HC'] = 2970;
+		equipment[2]['CH'] = 3066;
+		equipment[2]['KH'] = 3023;
+		equipment[2]['luck'] = 4008;
+		equipment[2]['endur'] = 2988;
+
+		equipment[3] = new Object();
+		equipment[3]['Position'] = 'RM'; //rechtsmitte
+		equipment[3]['HC'] = 3015;
+		equipment[3]['CH'] = 3070;
+		equipment[3]['KH'] = 3069;
+		equipment[3]['luck'] = 4017;
+		equipment[3]['endur'] = 2792;
+
+		equipment[4] = new Object();
+		equipment[4]['Position'] = 'RB'; //rechtsunten
+		equipment[4]['HC'] = 2949;
+		equipment[4]['CH'] = 3079;
+		equipment[4]['KH'] = 2853;
+		equipment[4]['luck'] = 4018;
+		equipment[4]['endur'] = 3062;
+
+		equipment[5] = new Object();
+		equipment[5]['Position'] = 'LM'; //linksmitte
+		equipment[5]['HC'] = 3055;
+		equipment[5]['CH'] = 3043;
+		equipment[5]['KH'] = 3021;
+		equipment[5]['luck'] = 4017;
+		equipment[5]['endur'] = 3063;
+
+		//now 6 mono
+		equipment[6] = new Object();
+		equipment[6]['Position'] = 'RT'; //rechtsoben
+		equipment[6]['HC'] = 0;
+		equipment[6]['CH'] = 4924;
+		equipment[6]['KH'] = 0;
+		equipment[6]['luck'] = 0;
+		equipment[6]['endur'] = 0;
+
+		equipment[7] = new Object();
+		equipment[7]['Position'] = 'LB'; //linksunten
+		equipment[7]['HC'] = 0;
+		equipment[7]['CH'] = 4883;
+		equipment[7]['KH'] = 0;
+		equipment[7]['luck'] = 0;
+		equipment[7]['endur'] = 0;
+
+		equipment[8] = new Object();
+		equipment[8]['Position'] = 'LT';//linksoben
+		equipment[8]['HC'] = 0;
+		equipment[8]['CH'] = 4876;
+		equipment[8]['KH'] = 0;
+		equipment[8]['luck'] = 0;
+		equipment[8]['endur'] = 0;
+
+		equipment[9] = new Object();
+		equipment[9]['Position'] = 'RM'; //rechtsmitte
+		equipment[9]['HC'] = 0;
+		equipment[9]['CH'] = 4757;
+		equipment[9]['KH'] = 0;
+		equipment[9]['luck'] = 0;
+		equipment[9]['endur'] = 0;
+
+		equipment[10] = new Object();
+		equipment[10]['Position'] = 'RB'; //rechtsunten
+		equipment[10]['HC'] = 0;
+		equipment[10]['CH'] = 4762;
+		equipment[10]['KH'] = 0;
+		equipment[10]['luck'] = 0;
+		equipment[10]['endur'] = 0;
+
+		equipment[11] = new Object();
+		equipment[11]['Position'] = 'LM'; //linksmitte
+		equipment[11]['HC'] = 0;
+		equipment[11]['CH'] = 4734;
+		equipment[11]['KH'] = 0;
+		equipment[11]['luck'] = 0;
+		equipment[11]['endur'] = 0;
+
+		return equipment;
+	}
+
+		//assumption: all used girls are upgraded and leveled to their max
+	function setGirlsHeh(){
+		let girls = new Array();
+		girls[0] = new Object();
+		girls[0].name = 'NY Estelle';
+		girls[0]['HC'] = 5.6*Hero.infos.level;
+		girls[0]['CH'] = 15.12*Hero.infos.level;
+		girls[0]['KH'] = 7.84*Hero.infos.level;
+
+		girls[1] = new Object();
+		girls[1].name = 'Himari';
+		girls[1].HC = 5.5*Hero.infos.level;
+		girls[1].CH = 13.5*Hero.infos.level;
+		girls[1].KH = 5.75*Hero.infos.level;
+
+		girls[2] = new Object();
+		girls[2].name = 'Filya';
+		girls[2].HC = 5*Hero.infos.level;
+		girls[2].CH = 13.25*Hero.infos.level;
+		girls[2].KH = 6.25*Hero.infos.level;
 
 		return girls;
 	}
@@ -330,21 +448,21 @@ function ButtonClickAction (enButtonEvent) {
 
 		if (playerClass == ('class' + HC)) {
 			part1 = Math.floor(((lvlBasedHC + boughtStatHC)*5 + (lvlBasedKH + boughtStatKH)*2 + equipSums.endur + haremBonus) * (1+clubbonus));
-			part2 = Math.round((lvlBasedHC + boughtStatHC)*(clubbonus))*5 + Math.round((lvlBasedKH + boughtStatKH)*(clubbonus))*2;
-			part3 = Math.round((equipSums.HC) * (1+clubbonus))*5 + Math.round((equipSums.KH) * (1+clubbonus))*2;
-			part4 = Math.round((lvlBasedHC + boughtStatHC + equipSums.HC)* boostGinseng)*5 + Math.round((lvlBasedKH + boughtStatKH + equipSums.KH)* boostGinseng)*2;
+			part2 = Math.floor((lvlBasedHC + boughtStatHC)*(clubbonus))*5 + Math.round((lvlBasedKH + boughtStatKH)*(clubbonus))*2;
+			part3 = Math.floor((equipSums.HC) * (1+clubbonus))*5 + Math.round((equipSums.KH) * (1+clubbonus))*2;
+			part4 = Math.floor((lvlBasedHC + boughtStatHC + equipSums.HC)* boostGinseng)*5 + Math.round((lvlBasedKH + boughtStatKH + equipSums.KH)* boostGinseng)*2;
 		}
 		if (playerClass == ('class' + CH)) {
 			part1 = Math.floor(((lvlBasedCH + boughtStatCH)*5 + (lvlBasedHC + boughtStatHC)*2 + equipSums.endur + haremBonus) * (1+clubbonus));
-			part2 = Math.round((lvlBasedCH + boughtStatCH)*(clubbonus))*5 + Math.round((lvlBasedHC + boughtStatHC)*(clubbonus))*2;
-			part3 = Math.round((equipSums.CH) * (1+clubbonus))*5 + Math.round((equipSums.HC) * (1+clubbonus))*2;
-			part4 = Math.round((lvlBasedCH + boughtStatCH + equipSums.CH)* boostGinseng)*5 + Math.round((lvlBasedHC + boughtStatHC + equipSums.HC)* boostGinseng)*2;
+			part2 = Math.floor((lvlBasedCH + boughtStatCH)*(clubbonus))*5 + Math.round((lvlBasedHC + boughtStatHC)*(clubbonus))*2;
+			part3 = Math.floor((equipSums.CH) * (1+clubbonus))*5 + Math.round((equipSums.HC) * (1+clubbonus))*2;
+			part4 = Math.floor((lvlBasedCH + boughtStatCH + equipSums.CH)* boostGinseng)*5 + Math.round((lvlBasedHC + boughtStatHC + equipSums.HC)* boostGinseng)*2;
 		}
 		if (playerClass == ('class' + KH)) {
 			part1 = Math.floor(((lvlBasedKH + boughtStatKH)*5 + (lvlBasedCH + boughtStatCH)*2 + equipSums.endur + haremBonus) * (1+clubbonus));
-			part2 = Math.round((lvlBasedKH + boughtStatKH)*(clubbonus))*5 + Math.round((lvlBasedCH + boughtStatCH)*(clubbonus))*2;
-			part3 = Math.round((equipSums.KH) * (1+clubbonus))*5 + Math.round((equipSums.CH) * (1+clubbonus))*2;
-			part4 = Math.round((lvlBasedKH + boughtStatKH + equipSums.KH)* boostGinseng)*5 + Math.round((lvlBasedCH + boughtStatCH + equipSums.CH)* boostGinseng)*2;
+			part2 = Math.floor((lvlBasedKH + boughtStatKH)*(clubbonus))*5 + Math.round((lvlBasedCH + boughtStatCH)*(clubbonus))*2;
+			part3 = Math.floor((equipSums.KH) * (1+clubbonus))*5 + Math.round((equipSums.CH) * (1+clubbonus))*2;
+			part4 = Math.floor((lvlBasedKH + boughtStatKH + equipSums.KH)* boostGinseng)*5 + Math.round((lvlBasedCH + boughtStatCH + equipSums.CH)* boostGinseng)*2;
 		}
 		result = part1 + part2 + part3 + part4;
 
@@ -353,9 +471,7 @@ function ButtonClickAction (enButtonEvent) {
 
 	// needs 6 equipments, delivered in the form of their setup as 6 objects
 	function calculateEquipSums(equipLT, equipLM, equipLB, equipRT, equipRM, equipRB){
-        console.log('calcEquips aufgerufen');
-        console.log('equipLT.HC: ' + equipLT.HC);
-		let result;
+        let result;
         result = new Object();
 		result.HC = equipLT.HC + equipLM.HC + equipLB.HC + equipRT.HC + equipRM.HC + equipRB.HC;
 		result.CH = equipLT.CH + equipLM.CH + equipLB.CH + equipRT.CH + equipRM.CH + equipRB.CH;
@@ -422,47 +538,47 @@ function ButtonClickAction (enButtonEvent) {
 
 		//Atk & Def depends on class, so calculation moved down
 		// for structure of "player" - no other use found so far^^
-        playerAlpha = setGirl4Team(alphaGirl.upgradedHC, alphaGirl.upgradedCH, alphaGirl.upgradedKH);
-        playerBeta = setGirl4Team(betaGirl.upgradedHC, betaGirl.upgradedCH, betaGirl.upgradedKH);
-        playerOmega = setGirl4Team(omegaGirl.upgradedHC, omegaGirl.upgradedCH, omegaGirl.upgradedKH);
+        playerAlpha = setGirl4Team(alphaGirl.HC, alphaGirl.CH, alphaGirl.KH);
+        playerBeta = setGirl4Team(betaGirl.HC, betaGirl.CH, betaGirl.KH);
+        playerOmega = setGirl4Team(omegaGirl.HC, omegaGirl.CH, omegaGirl.KH);
         //just in case, this global variable might already be initiated using createOpponent()
 		opponentClass = $('#leagues_right .icon').attr('carac');
 
 		if (playerClass == ('class' + HC)) {
-            playerAlphaAdd = alphaGirl.upgradedHC;
-            playerBetaAdd = betaGirl.upgradedHC;
-            playerOmegaAdd = omegaGirl.upgradedHC;
+            playerAlphaAdd = alphaGirl.HC;
+            playerBetaAdd = betaGirl.HC;
+            playerOmegaAdd = omegaGirl.HC;
             //opponentDef = opponentDefHC;
-			playerEgo = calculateEgo(endurance, alphaGirl.upgradedHC);
-			playerAtk = calculateAttack(playerMarket.player1stStat, alphaGirl.upgradedHC, boostCordy);
-			playerDefHC = calculateDefMain(playerMarket.player2ndStat, playerMarket.player3rdStat, alphaGirl.upgradedKH, alphaGirl.upgradedCH);
-			playerDefCH = calculateDefSideX (playerMarket.player3rdStat, alphaGirl.upgradedCH);
-			playerDefKH = calculateDefSideX (playerMarket.player2ndStat, alphaGirl.upgradedKH);
-			playerExcitement = calculateExcitment(alphaGirl.upgradedHC, alphaGirl.upgradedKH, alphaGirl.upgradedCH);
+			playerEgo = calculateEgo(endurance, alphaGirl.HC);
+			playerAtk = calculateAttack(playerMarket.player1stStat, alphaGirl.HC, boostCordy);
+			playerDefHC = calculateDefMain(playerMarket.player2ndStat, playerMarket.player3rdStat, alphaGirl.KH, alphaGirl.CH);
+			playerDefCH = calculateDefSideX (playerMarket.player3rdStat, alphaGirl.CH);
+			playerDefKH = calculateDefSideX (playerMarket.player2ndStat, alphaGirl.KH);
+			playerExcitement = calculateExcitment(alphaGirl.HC, alphaGirl.KH, alphaGirl.CH);
         }
         if (playerClass == ('class' + CH)) {
-            playerAlphaAdd = alphaGirl.upgradedCH;
-            playerBetaAdd = betaGirl.upgradedCH;
-            playerOmegaAdd = omegaGirl.upgradedCH;
+            playerAlphaAdd = alphaGirl.CH;
+            playerBetaAdd = betaGirl.CH;
+            playerOmegaAdd = omegaGirl.CH;
             //opponentDef = opponentDefCH;
-			playerEgo = calculateEgo(endurance, alphaGirl.upgradedCH);
-			playerAtk = calculateAttack(playerMarket.player1stStat, alphaGirl.upgradedCH, boostCordy);
-			playerDefHC = calculateDefSideX (playerMarket.player2ndStat, alphaGirl.upgradedHC);
-			playerDefCH = calculateDefMain(playerMarket.player2ndStat, playerMarket.player3rdStat, alphaGirl.upgradedHC, alphaGirl.upgradedKH);
-			playerDefKH = calculateDefSideX (playerMarket.player3rdStat, alphaGirl.upgradedKH);
-			playerExcitement = calculateExcitment(alphaGirl.upgradedCH, alphaGirl.upgradedHC, alphaGirl.upgradedKH);
+			playerEgo = calculateEgo(endurance, alphaGirl.CH);
+			playerAtk = calculateAttack(playerMarket.player1stStat, alphaGirl.CH, boostCordy);
+			playerDefHC = calculateDefSideX (playerMarket.player2ndStat, alphaGirl.HC);
+			playerDefCH = calculateDefMain(playerMarket.player2ndStat, playerMarket.player3rdStat, alphaGirl.HC, alphaGirl.KH);
+			playerDefKH = calculateDefSideX (playerMarket.player3rdStat, alphaGirl.KH);
+			playerExcitement = calculateExcitment(alphaGirl.CH, alphaGirl.HC, alphaGirl.KH);
         }
         if (playerClass == ('class' + KH)) {
-            playerAlphaAdd = alphaGirl.upgradedKH;
-            playerBetaAdd = betaGirl.upgradedKH;
-            playerOmegaAdd = omegaGirl.upgradedKH;
+            playerAlphaAdd = alphaGirl.KH;
+            playerBetaAdd = betaGirl.KH;
+            playerOmegaAdd = omegaGirl.KH;
             //opponentDef = opponentDefKH;
-			playerEgo = calculateEgo(endurance, alphaGirl.upgradedKH);
-			playerAtk = calculateAttack(playerMarket.player1stStat, alphaGirl.upgradedKH, boostCordy);
-			playerDefHC = calculateDefSideX (playerMarket.player3rdStat, alphaGirl.upgradedHC);
-			playerDefCH = calculateDefSideX (playerMarket.player2ndStat, alphaGirl.upgradedCH);
-			playerDefKH = calculateDefMain(playerMarket.player2ndStat, playerMarket.player3rdStat, alphaGirl.upgradedCH, alphaGirl.upgradedHC);
-			playerExcitement = calculateExcitment(alphaGirl.upgradedKH, alphaGirl.upgradedCH, alphaGirl.upgradedHC);
+			playerEgo = calculateEgo(endurance, alphaGirl.KH);
+			playerAtk = calculateAttack(playerMarket.player1stStat, alphaGirl.KH, boostCordy);
+			playerDefHC = calculateDefSideX (playerMarket.player3rdStat, alphaGirl.HC);
+			playerDefCH = calculateDefSideX (playerMarket.player2ndStat, alphaGirl.CH);
+			playerDefKH = calculateDefMain(playerMarket.player2ndStat, playerMarket.player3rdStat, alphaGirl.CH, alphaGirl.HC);
+			playerExcitement = calculateExcitment(alphaGirl.KH, alphaGirl.CH, alphaGirl.HC);
         }
 
         if (opponentClass == ('class' + HC)) {
@@ -574,6 +690,9 @@ function ButtonClickAction (enButtonEvent) {
             name: $('#leagues_right .player_block .title').text()
         };
 
+        //Replace opponent excitement with the correct value
+        $('div#leagues_right div.stats_wrap div:nth-child(9) span:nth-child(2)').empty().append(nRounding(opponentExcitement, 0, 1));
+
 		// because reasons
 		let result = opponent;
 		return result;
@@ -646,9 +765,51 @@ function ButtonClickAction (enButtonEvent) {
 		alphaGirl = girls[0]; //Alexa
         betaGirl = girls[1]; //Any
 		omegaGirl = girls[2]; // Harmonia
-		console.log('doNutakuGirls ' + alphaGirl.Name + betaGirl.Name + omegaGirl.Name);
-        setPlayerAndFight(girlsCombinations,haremBonusNutaku);
+		setPlayerAndFight(girlsCombinations,haremBonusNutaku);
 
+		girlsCombinations = 1; //reuse as counter - might be bad style^^
+		alphaGirl = girls[1];
+		betaGirl = girls[0];
+		omegaGirl = girls[2];
+		setPlayerAndFight(girlsCombinations, haremBonusNutaku);
+
+		girlsCombinations = 2; //reuse as counter - might be bad style^^
+		alphaGirl = girls[2];
+		betaGirl = girls[0];
+		omegaGirl = girls[1];
+		setPlayerAndFight(girlsCombinations, haremBonusNutaku);
+
+        //Hero.infos.level
+        //reduced to 7 setups from 6 Multi to 6 Mono
+        tableTemp = '<table>';
+        let tempEgo = $('#leagues_right div.lead_ego div:nth-child(2)').text();
+        tableTemp = tableTemp + '<tr>' + opponent.name  + ' & ' + opponentClass + ' & Ego: ' + tempEgo + ' & HC: ' + opponentDefHCStr + ' & CH: ' + opponentDefCHStr + ' & KH ' + opponentDefKHStr + ' & Atk:' + opponentAtkStr +'</tr>';
+        tableTemp = tableTemp + '<tr><td>Alpha</td><td>6Mu0Mo</td><td>5Mu1Mo</td><td>4Mu2Mo</td><td>3Mu3Mo</td><td>2Mu4Mo</td><td>1Mu5Mo</td><td>0Mu6Mo</td></tr>';
+        for(i=0; i<(girlsCombinations+1); i++){
+            tableTemp = tableTemp + '<tr><td>' + girls[i].name + '</td>';
+            for (j=0; j<7;j++){
+                tableTemp = tableTemp + '<td>' + resultArray.result[i][j] + '</td>';
+            }
+            tableTemp = tableTemp + '</tr>';
+        }
+        tableTemp = tableTemp + '</table>';
+        entryTextArea.innerHTML = tableTemp;
+    }
+
+	function doHeh(){
+        girls = setGirlsHeh();
+        equips = setEquimentHeh();
+        girlsCombinations = 1;
+        resultArray = initResultArray2(girlsCombinations, equips.length);
+
+        // iterate through girls to set alpha, beta, omega
+		girlsCombinations = 0; //reuse as counter - might be bad style^^
+		alphaGirl = girls[0]; //NY Estelle
+        betaGirl = girls[1]; //Himari
+		omegaGirl = girls[2]; // Filya
+		console.log('doHehGirls ' + alphaGirl.Name + betaGirl.Name + omegaGirl.Name);
+        setPlayerAndFight(girlsCombinations,haremBonusHeh);
+/*
 		girlsCombinations = 1; //reuse as counter - might be bad style^^
 		alphaGirl = girls[1];
 		betaGirl = girls[0];
@@ -662,12 +823,13 @@ function ButtonClickAction (enButtonEvent) {
 		omegaGirl = girls[1];
 		console.log('doNutakuGirls ' + alphaGirl.Name + betaGirl.Name + omegaGirl.Name);
 		setPlayerAndFight(girlsCombinations, haremBonusNutaku);
-
+*/
+        //reduced to 7 setups from 6 Multi to 6 Mono
         tableTemp = '<table>';
-        tableTemp = tableTemp + '<tr><td>Alpha</td><td>6Mu0Mo</td><td>5Mu1Mo</td><td>4Mu2Mo</td><td>3Mu3Mo</td><td>2Mu4Mo</td><td>1Mu5Mo</td><td>0Mu6Mo</td><td>1Mu5Mo</td><td>2Mu4Mo</td><td>3Mu3Mo</td><td>4Mu2Mo</td><td>5Mu1Mo</td></tr>';
+        tableTemp = tableTemp + '<tr><td>Alpha</td><td>6Mu0Mo</td><td>5Mu1Mo</td><td>4Mu2Mo</td><td>3Mu3Mo</td><td>2Mu4Mo</td><td>1Mu5Mo</td><td>0Mu6Mo</td></tr>';
         for(i=0; i<(girlsCombinations+1); i++){
-            tableTemp = tableTemp + '<tr>';
-            for (j=0; j<equips.length;j++){
+            tableTemp = tableTemp + '<tr><td>' + girls[i].name + '</td>';
+            for (j=0; j<7;j++){
                 tableTemp = tableTemp + '<td>' + resultArray.result[i][j] + '</td>';
             }
             tableTemp = tableTemp + '</tr>';
@@ -701,18 +863,46 @@ function ButtonClickAction (enButtonEvent) {
     tablei = tablei + '</table>';
     entryTextArea.innerHTML = tablei;
 
-    createOpponent();
+    //createOpponent();
 
     if (Hero.infos.id == 1375928) {
-                console.log('einstieg doNutaku kommt');
                 doNutaku();
             } else if (Hero.infos.id == 959708) {
-                alert('HeH');
+                doHeh();
             } else {alert('Testtest');}
 
     document.getElementById ("simBtnContainer").appendChild(entryTextArea);
 
-
+    // Refresh sim on new opponent selection (Credit: BenBrazke)
+    var opntName;
+    $('.leadTable').click(function() {
+        opntName=''
+    })
+    function waitOpnt() {
+        setTimeout(function() {
+            if (JSON.parse($('#leagues_right .girls_wrapper .team_girl[g=3]').attr('new-girl-tooltip-data'))) {
+                sessionStorage.setItem('opntName', opntName);
+                if (Hero.infos.id == 1375928) {
+                    doNutaku();
+                } else if (Hero.infos.id == 959708) {
+                    doHeh();
+                } else {alert('Testtest');}
+            }
+            else {
+                waitOpnt()
+            }
+        }, 50);
+    }
+    var observeCallback = function() {
+        var opntNameNew = $('#leagues_right .player_block .title')[0].innerHTML
+        if (opntName !== opntNameNew) {
+            opntName = opntNameNew;
+            waitOpnt();
+        }
+    }
+    var observer = new MutationObserver(observeCallback);
+    var test = document.getElementById('leagues_right');
+    observer.observe(test, {attributes: false, childList: true, subtree: false});
 }
 
 sheet.insertRule('#simBtnContainer {'
