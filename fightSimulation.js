@@ -1,8 +1,9 @@
+
 /*--- Create a button in a container div.  It will be styled and positioned with CSS.
 */
 let entryNodeButton       = document.createElement ('div');
 entryNodeButton.innerHTML = '<button id="simulationButton" type="button">'
-                + 'Simulate me!</button>'
+                + 'Simulate fight!</button>'
                 ;
 entryNodeButton.setAttribute ('id', 'simBtnContainer');
 //zeigt an, welche Seite geladen sein muss, damit das div dazukommt
@@ -170,7 +171,6 @@ function ButtonClickAction (enButtonEvent) {
     let myalpha = JSON.parse($('#leagues_left .girls_wrapper .team_girl[g=1]').attr('new-girl-tooltip-data'));
     //Hero.infos.id == 209261 && window.location.hostname == "www.hentaiheroes.com"
     entryNodeButton.innerHTML =	leer;
-    //document.getElementById ("myContainer").replaceChild (entryNodeButton);
     entryNodeButton.innerHTML =	 '<table>'
 		+ '<tr><td>playerEgo' +'</td><td>'+playerEgo+'</td><td>'+leer+'</td><td>opponentEgo'+'</td><td>'+opponentEgo+'</td></tr>'
 		+ '<tr><td>playerEgoCheck' +'</td><td>'+playerEgoCheck+'</td><td>'+leer+'</td><td>'+leer+'</td><td>'+leer+'</td></tr>'
@@ -190,7 +190,7 @@ function ButtonClickAction (enButtonEvent) {
 		+ '<tr><td>points' +'</td><td>'+simuresult.points+'</td><td>'+leer+'</td><td>opponentOmegaAdd'+'</td><td>'+opponentOmegaAdd+'</td></tr>'
 		+ '<tr><td>hero: ' +'</td><td>'+ Hero.infos.id +'</td><td>'+leer+'</td><td>gebaut '+ 'class'+ CH + '</td><td>'+$('#leagues_right .player_block .title').text()+'</td></tr>'
 		+ '</table>'    ;
-    document.getElementById ("myContainer").appendChild(entryNodeButton);
+    document.getElementById ("simBtnContainer").appendChild(entryNodeButton);
 
 
 }
