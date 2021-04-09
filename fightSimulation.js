@@ -1,4 +1,3 @@
-
 /*--- Create a button in a container div.  It will be styled and positioned with CSS.
 */
 let entryNodeButton       = document.createElement ('div');
@@ -78,6 +77,27 @@ function ButtonClickAction (enButtonEvent) {
 	let leer = ' ';
 	let opponent;
 	let opponentTeam;
+    let girls;
+	let alphaGirl;
+    let betaGirl;
+    let omegaGirl;
+	let girlsCombinations = 3; //step 0: setup the combinations to look for
+	//let girlsCombo = new Array(3);
+	let equips;
+	let equipSums;
+	let tobefound // eine Nummer, die beschreibt, wie viel Equipment kombiniert werden soll
+	let equipLT; //per se muss jede Position gefüllt werden
+	let equipLM; // Step 0: nur eine Nummer, keine echte Position
+	let equipLB;
+	let equipRT;
+	let equipRM;
+	let equipRB;
+	let boostGinseng;
+	let boostCordy;
+	let resultArray; //init result array sets 1st<=2nd<=3rd...
+	let resultValue; //take the current simulation result
+    let tableTemp; // to build up innerHTML step by step
+
 
 	// setting global variables
 	idNutaku = 	1375928;
@@ -93,6 +113,9 @@ function ButtonClickAction (enButtonEvent) {
 	boughtStatHC = Hero.infos.level*30;
 	boughtStatCH = Hero.infos.level*30;
 	boughtStatKH = Hero.infos.level*30;
+    // needed already before anything goes
+    playerClass = $('#leagues_left .icon').attr('carac');
+    opponentClass = $('#leagues_right .icon').attr('carac');
 	//market stuff based on level (=Hero.infos.level)
 	if (playerClass == ('class' + HC)) {
             lvlBasedHC = 9*Hero.infos.level;
@@ -571,115 +594,80 @@ function ButtonClickAction (enButtonEvent) {
 		return this;
 	}
 
+    function setPlayerAndFight(girlsCombinations){
+		// for each girl setup iterate through equipments to set all 6
+		for (jequip=0; jequip<equips.length; jequip++){
+			// reset equipSums just in case
+			equipSums = 0;
+			// and iterate through equipment each time
+			equipLT = equips[jequip];
+			equipLM = equips[jequip+1 % equips.length];
+			equipLB = equips[jequip+2 % equips.length];
+			equipRT = equips[jequip+3 % equips.length];
+			equipRM = equips[jequip+4 % equips.length];
+			equipRB = equips[jequip+5 % equips.length];
+			equipSums = calculateEquipSums(equipLT, equipLM, equipLB, equipRT, equipRM, equipRB);
 
-        playerClass = $('#leagues_left .icon').attr('carac');
-        playerEgo = Math.round(Hero.infos.caracs.ego);
-        playerDefHC = Math.round(Hero.infos.caracs.def_carac1);
-        playerDefCH = Math.round(Hero.infos.caracs.def_carac2);
-        playerDefKH = Math.round(Hero.infos.caracs.def_carac3);
-        playerAtk = Math.round(Hero.infos.caracs.damage);
-        playerAlpha = JSON.parse($('#leagues_left .girls_wrapper .team_girl[g=1]').attr('new-girl-tooltip-data'));
-        playerBeta = JSON.parse($('#leagues_left .girls_wrapper .team_girl[g=2]').attr('new-girl-tooltip-data'));
-        playerOmega = JSON.parse($('#leagues_left .girls_wrapper .team_girl[g=3]').attr('new-girl-tooltip-data'));
-        playerExcitement = Math.round((playerAlpha.caracs.carac1 + playerAlpha.caracs.carac2 + playerAlpha.caracs.carac3) * 28);
+            //apply booster
+			boostGinseng = 0.12 // 0.06 for each ginseng
+			boostCordy = 0.2 // 0.1 for each cordy
 
-        opponentClass = $('#leagues_right .icon').attr('carac');
-        opponentEgo = parseInt($('#leagues_right div.lead_ego div:nth-child(2)').text().replace(/[^0-9]/gi, ''), 10);
-        opponentAlpha = JSON.parse($('#leagues_right .girls_wrapper .team_girl[g=1]').attr('new-girl-tooltip-data'));
-        opponentBeta = JSON.parse($('#leagues_right .girls_wrapper .team_girl[g=2]').attr('new-girl-tooltip-data'));
-        opponentOmega = JSON.parse($('#leagues_right .girls_wrapper .team_girl[g=3]').attr('new-girl-tooltip-data'));
-        opponentExcitement = Math.round((opponentAlpha.caracs.carac1 + opponentAlpha.caracs.carac2 + opponentAlpha.caracs.carac3) * 28);
+            let currentPlayer;
 
-        opponentDefHCStr = $('#leagues_right div.stats_wrap div:nth-child(2)').text();
-        opponentDefHC = (opponentDefHCStr.includes('.') || opponentDefHCStr.includes(',')) ? parseInt(opponentDefHCStr.replace('K', '00').replace(/[^0-9]/gi, ''), 10) : parseInt(opponentDefHCStr.replace('K', '000').replace(/[^0-9]/gi, ''), 10);
+            currentPlayer = createPlayer(alphaGirl, betaGirl, omegaGirl, boostCordy, boostGinseng, equipSums, haremBonus);
 
-        opponentDefCHStr = $('#leagues_right div.stats_wrap div:nth-child(4)').text();
-        opponentDefCH = (opponentDefCHStr.includes('.') || opponentDefCHStr.includes(',')) ? parseInt(opponentDefCHStr.replace('K', '00').replace(/[^0-9]/gi, ''), 10) : parseInt(opponentDefCHStr.replace('K', '000').replace(/[^0-9]/gi, ''), 10);
+			//get result for this combo
+			resultValue = simuFight(currentPlayer, opponent);
+			/*      score: Math.floor(matchRating),
+					scoreStr: matchRatingStr, // mit Formatierung
+					scoreClass: matchRatingClass,
+					playerEgoCheck: playerEgoCheck,
+					points: pointsInt,
+					pointsStr: pointsStr // mit Formatierung	*/
+			resultArray.result[girlsCombinations][jequip] = resultValue.pointsStr + ' & ' + resultValue.scoreStr + '|';
+		}
+	}
 
-        opponentDefKHStr = $('#leagues_right div.stats_wrap div:nth-child(6)').text();
-        opponentDefKH = (opponentDefKHStr.includes('.') || opponentDefKHStr.includes(',')) ? parseInt(opponentDefKHStr.replace('K', '00').replace(/[^0-9]/gi, ''), 10) : parseInt(opponentDefKHStr.replace('K', '000').replace(/[^0-9]/gi, ''), 10);
+    function doNutaku(){
+        girls = setGirlsNutaku();
+        equips = setEquimentNutaku();
+        resultArray = initResultArray2(girlsCombinations, equips.length);
+        opponent = createOpponent();
 
-        opponentAtkStr = $('#leagues_right div.stats_wrap div:nth-child(8)').text();
-        opponentAtk = (opponentAtkStr.includes('.') || opponentAtkStr.includes(',')) ? parseInt(opponentAtkStr.replace('K', '00').replace(/[^0-9]/gi, ''), 10) : parseInt(opponentAtkStr.replace('K', '000').replace(/[^0-9]/gi, ''), 10);
-        if (playerClass == ('class' + HC)) {
-            playerAlphaAdd = playerAlpha.caracs.carac1;
-            playerBetaAdd = playerBeta.caracs.carac1;
-            playerOmegaAdd = playerOmega.caracs.carac1;
-            opponentDef = opponentDefHC;
+        // iterate through girls to set alpha, beta, omega
+		girlsCombinations = 0; //reuse as counter - might be bad style^^
+		alphaGirl = girls[0]; //Alexa
+		betaGirl = girls[1]; //Any
+		omegaGirl = girls[2]; // Harmonia
+		setPlayerAndFight(girlsCombinations);
+
+		girlsCombinations = 1; //reuse as counter - might be bad style^^
+		alphaGirl = girls[1];
+		betaGirl = girls[0];
+		omegaGirl = girls[2];
+		setPlayerAndFight(girlsCombinations);
+
+		girlsCombinations = 2; //reuse as counter - might be bad style^^
+		alphaGirl = girls[2];
+		betaGirl = girls[0];
+		omegaGirl = girls[1];
+		setPlayerAndFight(girlsCombinations);
+
+        tableTemp = '<table>';
+        for(i=0; i<(girlsCombinations+1); i++){
+            tableTemp = tableTemp + '<tr>';
+            for (j=0; j<equips.length;j++){
+                tableTemp = tableTemp + '<td>' + resultArray.result[i][j] + '</td>';
+            }
+            tableTemp = tableTemp + '</tr>';
         }
-        if (playerClass == ('class' + CH)) {
-            playerAlphaAdd = playerAlpha.caracs.carac2;
-            playerBetaAdd = playerBeta.caracs.carac2;
-            playerOmegaAdd = playerOmega.caracs.carac2;
-            opponentDef = opponentDefCH;
-        }
-        if (playerClass == ('class' + KH)) {
-            playerAlphaAdd = playerAlpha.caracs.carac3;
-            playerBetaAdd = playerBeta.caracs.carac3;
-            playerOmegaAdd = playerOmega.caracs.carac3;
-            opponentDef = opponentDefKH;
-        }
+        tableTemp = tableTemp + '</table>';
+        entryTextArea.innerHTML = tableTemp;
+    }
 
-        if (opponentClass == ('class' + HC)) {
-            playerDef = playerDefHC;
-            opponentAlphaAdd = opponentAlpha.caracs.carac1;
-            opponentBetaAdd = opponentBeta.caracs.carac1;
-            opponentOmegaAdd = opponentOmega.caracs.carac1;
-        }
-        if (opponentClass == ('class' + CH)) {
-            playerDef = playerDefCH;
-            opponentAlphaAdd = opponentAlpha.caracs.carac2;
-            opponentBetaAdd = opponentBeta.caracs.carac2;
-            opponentOmegaAdd = opponentOmega.caracs.carac2;
-        }
-        if (opponentClass == ('class' + KH)) {
-            playerDef = playerDefKH;
-            opponentAlphaAdd = opponentAlpha.caracs.carac3;
-            opponentBetaAdd = opponentBeta.caracs.carac3;
-            opponentOmegaAdd = opponentOmega.caracs.carac3;
-        }
 
-        let playerTeam = [0, playerAlphaAdd, playerBetaAdd, playerOmegaAdd];
-         opponentTeam = [0, opponentAlphaAdd, opponentBetaAdd, opponentOmegaAdd];
 
-        let player = {
-            ego: playerEgo,
-            originEgo: Math.round(Hero.infos.caracs.ego),
-            atk: playerAtk,
-            def: playerDef,
 
-            alpha: playerAlpha,
-            beta: playerBeta,
-            omega: playerOmega,
-            team: playerTeam,
-
-            orgasm: 0,
-            orgasmCount: 0,
-            excitement: playerExcitement,
-
-            text: 'Player',
-        };
-
-         opponent = {
-            ego: opponentEgo,
-            originEgo: parseInt($('#leagues_right .lead_ego div:nth-child(2)').text().replace(/[^0-9]/gi, ''), 10),
-            atk: opponentAtk,
-            def: opponentDef,
-
-            alpha: opponentAlpha,
-            beta: opponentBeta,
-            omega: opponentOmega,
-            team: opponentTeam,
-
-            orgasm: 0,
-            orgasmCount: 0,
-            excitement: opponentExcitement,
-
-            text: 'Opponent',
-            name: $('#leagues_right .player_block .title').text()
-        }
-        simuresult = simuFight(player, opponent);
-        ;
 
     //let myalpha = JSON.parse($('#leagues_left .girls_wrapper .team_girl[g=1]').attr('new-girl-tooltip-data'));
     //Hero.infos.id == 123 && window.location.hostname == "www.hentaiheroes.com"
@@ -705,6 +693,12 @@ function ButtonClickAction (enButtonEvent) {
     }
     tablei = tablei + '</table>';
     entryTextArea.innerHTML = tablei;
+
+    if (Hero.infos.id == 1375928) {
+                doNutaku();
+            } else if (Hero.infos.id == 959708) {
+                alert('HeH');
+            } else {alert('Testtest');}
 
     document.getElementById ("simBtnContainer").appendChild(entryTextArea);
 
