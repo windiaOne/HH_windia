@@ -1,7 +1,13 @@
-I have no clue what I do - just others do. So I thought I share some links I still remember that these helped me to understand
+I have no clue what I do - just others do. So I thought I share some links I still remember that these helped me to understand.
+There is no connection to think they are recommended to help you understand.
 
-
+business logic
+- HH++ script itself, especially for all the game variables
+- first contact with "do something in TamperMonkey": https://hibbard.eu/tampermonkey-tutorial/
+- start with JS arrays: https://www.w3schools.com/js/js_arrays.asp & https://www.w3schools.com/js/js_objects.asp
+- - still misses n-dimensional arrays the way I looked for^^
 
 GUI
+- create a new button on desired page: https://stackoverflow.com/questions/6480082/add-a-javascript-button-using-greasemonkey-or-tampermonkey 
 - use insertRule to extract style information as CSS: https://www.mediaevent.de/javascript/insert-remove-rule.html
 - collapsible table: https://www.w3schools.com/howto/howto_js_collapsible.asp
