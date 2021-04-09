@@ -59,28 +59,58 @@ function ButtonClickAction (enButtonEvent) {
 
     var matchRating;
 	
-	//a line of text to the screen.
-    let entryTextArea       = document.createElement ('p');
-	let idNutaku;
+	// new "global" variables that work either independent from server or avoid using them as function value 
+	let entryTextArea = document.createElement ('p'); //a line of text to the screen.
+	let idNutaku; // identify yourself to use correct girl & equipment for simulation
 	let idHeh;
 	let idTestHeh;
+	let haremBonusNutaku;
+	let haremBonusHeh;
+	let haremBonusTestHeh;
 	let lvlBasedHC;
     let lvlBasedCH;
     let lvlBasedKH;
 	let boughtStatHC;
 	let boughtStatCH;
 	let boughtStatKH;
-	let haremBonusNutaku;
-	let haremBonusHeh;
-	let haremBonusTestHeh;
- 	let clubbonus = 0.1; //currently everything is maxed and gives 10 % on hc, ch, kh, endur, harmony etc.
+	let clubbonus; //currently everything is maxed and gives 10 % on hc, ch, kh, endur, harmony etc.
+	let simuresult;
+
+	// setting global variables
+	idNutaku = 	1375928;
+	idHeh = 959708;
+	idTestHeh = 2110;
+	//take directly from harem's overview - needs to be refreshed any time a girl is seducted or upgraded/upleveled
+	haremBonusNutaku = 20196;
+	haremBonusHeh = 15505;
+	haremBonusTestHeh = 12223;
+	//currently everything is maxed and gives 10 % on hc, ch, kh, endur, harmony etc.
+	clubbonus = 0.1; 
+	// assumption: you buy always everything
+	boughtStatHC = Hero.infos.level*30;
+	boughtStatCH = Hero.infos.level*30;
+	boughtStatKH = Hero.infos.level*30;
+	//market stuff based on level (=Hero.infos.level)
+	if (playerClass == ('class' + HC)) {
+            lvlBasedHC = 9*Hero.infos.level;
+            lvlBasedCH = 5*Hero.infos.level;
+            lvlBasedKH = 7*Hero.infos.level;
+        }
+    if (playerClass == ('class' + CH)) {
+            lvlBasedHC = 7*Hero.infos.level;
+            lvlBasedCH = 9*Hero.infos.level;
+            lvlBasedKH = 5*Hero.infos.level;
+        }
+    if (playerClass == ('class' + KH)) {
+            lvlBasedHC = 5*Hero.infos.level;
+            lvlBasedCH = 7*Hero.infos.level;
+            lvlBasedKH = 9*Hero.infos.level;
+        }
 
 
 
 
-
-
-    let simuresult;
+    
 
         playerClass = $('#leagues_left .icon').attr('carac');
         playerEgo = Math.round(Hero.infos.caracs.ego);
