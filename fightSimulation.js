@@ -1,19 +1,55 @@
 /*--- Create a button in a container div.  It will be styled and positioned with CSS.
 */
+
+/*let linuxtest = document.createElement('p');
+document.innerHTML = '<p id="paragraph">Linuxhint</p>';
+
+let linuxbutton = document.createElement('div');
+document.innerHTML = '<button id="linuxbut" onclick="change()">Change!</button>';
+
+var a = 1;
+
+function change(){
+ if (a==1) {
+   document.getElementById("paragraph").innerHTML = "Linuxhint is awesome"
+   a = 0;
+ } else {
+   document.getElementById("paragraph").innerHTML = "Linuxhint"
+   a = 1;
+ }
+}*/
+
+
 let entryNodeButton       = document.createElement ('div');
 entryNodeButton.innerHTML = '<button id="simulationButton" type="button">'
                 + 'Simulate fight!</button>'
                 ;
 entryNodeButton.setAttribute ('id', 'simBtnContainer');
+
+let linuxbutton = document.createElement('div');
+linuxbutton.innerHTML = '<button id="linuxbut" type="button">Change!</button>';
+linuxbutton.setAttribute('id', 'linBtnCont');
+
+let linuxtext = document.createElement('div');
+linuxtext.innerHTML = '<p id="paragraph">Linuxhint</p>';
+linuxtext.setAttribute('id', 'linTextCont');
+
+
 //zeigt an, welche Seite geladen sein muss, damit das div dazukommt
 if (window.location.pathname == '/tower-of-fame.html'){
     document.body.appendChild (entryNodeButton);
+    document.body.appendChild(linuxbutton);
+    document.body.appendChild(linuxtext);
 }
 
 //--- Activate the newly added button.
 document.getElementById ("simulationButton").addEventListener (
     "click", ButtonClickAction, false
 );
+document.getElementById("linuxbut").addEventListener(
+	"click", change, false
+	);
+
 
 function ButtonClickAction (enButtonEvent) {
     //first the official variables, later the self made ones
@@ -103,7 +139,7 @@ function ButtonClickAction (enButtonEvent) {
 
 
 	// setting global variables
-	idNutaku = 123123;
+	idNutaku = 	123123;
 	idHeh = 456456;
 	idTestHeh = 789789;
     playerName = $('#leagues_left .player_block .title').text();
@@ -269,7 +305,7 @@ function ButtonClickAction (enButtonEvent) {
 		return girls;
 	}
 	// each server needs equipment and girls to be setup
-	function setEquimentHeh(){
+		function setEquimentHeh(){
 		//not sure if rewrite is neccessary to get complete simulation
 		//first 6 multi, then 6 mono
 		let equipment = new Array();
@@ -304,7 +340,7 @@ function ButtonClickAction (enButtonEvent) {
 		equipment[3]['KH'] = 3021;
 		equipment[3]['luck'] = 4017;
 		equipment[3]['endur'] = 3063;
-		
+
 		equipment[4] = new Object();
 		equipment[4]['Position'] = 'RM'; //rechtsmitte
 		equipment[4]['HC'] = 3015;
@@ -321,7 +357,7 @@ function ButtonClickAction (enButtonEvent) {
 		equipment[5]['luck'] = 4018;
 		equipment[5]['endur'] = 3062;
 
-		
+
 
 		//now 6 mono
 		equipment[6] = new Object();
@@ -347,7 +383,7 @@ function ButtonClickAction (enButtonEvent) {
 		equipment[8]['KH'] = 0;
 		equipment[8]['luck'] = 0;
 		equipment[8]['endur'] = 0;
-		
+
 		equipment[9] = new Object();
 		equipment[9]['Position'] = 'LM'; //linksmitte
 		equipment[9]['HC'] = 0;
@@ -372,9 +408,7 @@ function ButtonClickAction (enButtonEvent) {
 		equipment[11]['luck'] = 0;
 		equipment[11]['endur'] = 0;
 
-		
-
-		return equipment;
+        return equipment;
 	}
 
 		//assumption: all used girls are upgraded and leveled to their max
@@ -828,7 +862,7 @@ function ButtonClickAction (enButtonEvent) {
 		setPlayerAndFight(alphaRow, haremBonusNutaku, boostCordy, boostGinseng);
 
         //first setup calculated and print ready - add meta data
-        tableTemp = 'nutaku, ' + playerName + ', lvl' + Hero.infos.level + ', ' + playerClassStr + '<br>';
+        tableTemp = 'nutaku, ' + playerName + ', lvl' + Hero.infos.level + ', ' + playerClassStr + ' vs. ';
         let oppoOrigEgo = $('#leagues_right div.lead_ego div:nth-child(2)').text();
         let oppoLvl = $('#leagues_right .player_block .lead_player_profile .level_wrapper .level').text();
         let luck = $('#leagues_right .player_block .stats_wrap div:nth-child(10)').text();
@@ -892,6 +926,34 @@ function ButtonClickAction (enButtonEvent) {
 		setPlayerAndFight(alphaRow, haremBonusNutaku, boostCordy, boostGinseng);
 
         tableTemp = tableTemp + createTable(alphaTable, alphaRows, boostCordy, boostGinseng);
+        // different booster setup
+        boostCordy = 0.4; //default setup of 2 & 2
+		boostGinseng = 0.0; //default setup of 2 & 2
+		resultArray = initResultArray2(alphaRows, equips.length); // just in case
+
+        // iterate through girls to set alpha, beta, omega
+		alphaRow = 0; //counter
+		alphaGirl = girls[0]; //Alexa
+        alphaTable[alphaRow] = girls[0];
+		betaGirl = girls[1]; //Any
+		omegaGirl = girls[2]; // Harmonia
+		setPlayerAndFight(alphaRow,haremBonusNutaku, boostCordy, boostGinseng);
+
+		alphaRow = 1; // counter
+		alphaGirl = girls[1];
+		alphaTable[alphaRow] = girls[1];
+		betaGirl = girls[0];
+		omegaGirl = girls[2];
+		setPlayerAndFight(alphaRow, haremBonusNutaku, boostCordy, boostGinseng);
+
+		alphaRow = 2; //counter
+		alphaGirl = girls[2];
+		alphaTable[alphaRow] = girls[2];
+		betaGirl = girls[0];
+		omegaGirl = girls[1];
+		setPlayerAndFight(alphaRow, haremBonusNutaku, boostCordy, boostGinseng);
+
+        tableTemp = tableTemp + createTable(alphaTable, alphaRows, boostCordy, boostGinseng);
         entryTextArea.innerHTML = tableTemp;
     }
 
@@ -927,7 +989,7 @@ function ButtonClickAction (enButtonEvent) {
 		setPlayerAndFight(alphaRow, haremBonusNutaku, boostCordy, boostGinseng);
 */
         //first setup calculated and print ready - add meta data
-        tableTemp = 'HeH, ' + playerName + ', lvl' + Hero.infos.level + ', ' + playerClassStr + ', ginseng: ' + boostGinseng + ' cordy: ' + boostCordy + '<br>';
+        tableTemp = 'HeH, ' + playerName + ', lvl' + Hero.infos.level + ', ' + playerClassStr + ' vs. ';
         let oppoOrigEgo = $('#leagues_right div.lead_ego div:nth-child(2)').text();
         let oppoLvl = $('#leagues_right .player_block .lead_player_profile .level_wrapper .level').text();
         let luck = $('#leagues_right .player_block .stats_wrap div:nth-child(10)').text();
@@ -1006,7 +1068,10 @@ function ButtonClickAction (enButtonEvent) {
 
     //let myalpha = JSON.parse($('#leagues_left .girls_wrapper .team_girl[g=1]').attr('new-girl-tooltip-data'));
     //Hero.infos.id == 123 && window.location.hostname == "www.hentaiheroes.com"
+    console.log('das steht driN'+entryTextArea.innerHTML+'Hier');
     entryTextArea.innerHTML =	leer;
+    console.log('das steht driN'+entryTextArea.innerHTML+'Hier');
+
 
 
     let tablea;
@@ -1069,6 +1134,18 @@ function ButtonClickAction (enButtonEvent) {
     observer.observe(test, {attributes: false, childList: true, subtree: false});
 }
 
+var a = 1;
+
+function change(){
+ if (a==1) {
+   document.getElementById("paragraph").innerHTML = "Linuxhint is awesome"
+   a = 0;
+ } else {
+   document.getElementById("paragraph").innerHTML = "Linuxhint"
+   a = 1;
+ }
+}
+
 sheet.insertRule('#simBtnContainer {'
                      + 'display: block;'
                      + 'position: absolute;'
@@ -1082,5 +1159,36 @@ sheet.insertRule('#simBtnContainer {'
                      + 'letter-spacing: .22px;'
                      + 'text-align: left !important;'
                      + 'color: #ffffff;'
+                     + 'background:#9c323f;'
+                     );
+
+sheet.insertRule('#linBtnCont {'
+                     + 'display: block;'
+                     + 'position: absolute;'
+                     + 'left: 20px;'
+                     + 'top: 200px;'
+                     + 'z-index: 15;'
+                     + 'margin: 2px;'
+                     + 'padding: 2px 2px;'
+                     + 'font-size: 20px;'
+                     + 'font-weight: 400;'
+                     + 'letter-spacing: .22px;'
+                     + 'text-align: left !important;'
+                     + 'color: #000000;'
+                     + 'background:#9c323f;'
+                     );
+sheet.insertRule('#linTextCont {'
+                     + 'display: block;'
+                     + 'position: absolute;'
+                     + 'left: 20px;'
+                     + 'top: 250px;'
+                     + 'z-index: 15;'
+                     + 'margin: 2px;'
+                     + 'padding: 2px 2px;'
+                     + 'font-size: 20px;'
+                     + 'font-weight: 400;'
+                     + 'letter-spacing: .22px;'
+                     + 'text-align: left !important;'
+                     + 'color: #000000;'
                      + 'background:#9c323f;'
                      );
