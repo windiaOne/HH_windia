@@ -4,6 +4,8 @@ and some more manual labour.
 
 Goal of this script addon: ease finding my optimal setup for my league fights - based on what I have in use.
 
+While I set up the AGPLv3.0 - technically I depend on the HH++ script's license I guess. As I see none there, I chose one that needs to tell its sources.
+
 That said: my playing style checks on 7 equipment setups: 6 Multi down to 6 Mono. The order is simply driven by "which mono gives most (my main stat) surplus to its multi when chosen". E.g. two multis - 1_a) with 300 stat & 2_a) with 350 stat - to cycled through with two monos - 1_b) 650 stat and 2_b) 750 stat. The diff is in case 1) +350 and in case 2) +400. So I would first use mono 2_b) because it adds 50 more stat then 1_b with only +350.
 
 As of today I develop this on my pace with my needs and abilities. If you have any wishes or bug reports, you might either contact me here on github and hope I recognize it. Or find me in the official game forum.
