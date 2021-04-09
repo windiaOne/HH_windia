@@ -63,6 +63,9 @@ function ButtonClickAction (enButtonEvent) {
 	let idNutaku; // identify yourself to use correct girl & equipment for simulation
 	let idHeh;
 	let idTestHeh;
+    let playerName;
+    let playerClassStr;
+    let opponentClassStr;
 	let haremBonusNutaku;
 	let haremBonusHeh;
 	let haremBonusTestHeh;
@@ -81,7 +84,7 @@ function ButtonClickAction (enButtonEvent) {
     let alphaGirl;
     let betaGirl;
     let omegaGirl;
-	let alphaRow; 
+	let alphaRow;
 	let alphaRows;//step 0: setup the combinations to look for
 	let equips;
 	let equipSums;
@@ -103,6 +106,7 @@ function ButtonClickAction (enButtonEvent) {
 	idNutaku = 	1375928;
 	idHeh = 959708;
 	idTestHeh = 2110;
+    playerName = $('#leagues_left .player_block .title').text();
 	//take directly from harem's overview - needs to be refreshed any time a girl is seducted or upgraded/upleveled
 	haremBonusNutaku = 20196;
 	haremBonusHeh = 15505;
@@ -118,20 +122,23 @@ function ButtonClickAction (enButtonEvent) {
     opponentClass = $('#leagues_right .icon').attr('carac');
 	//market stuff based on level (=Hero.infos.level)
 	if (playerClass == ('class' + HC)) {
-            lvlBasedHC = 9*Hero.infos.level;
-            lvlBasedCH = 5*Hero.infos.level;
-            lvlBasedKH = 7*Hero.infos.level;
+        lvlBasedHC = 9*Hero.infos.level;
+        lvlBasedCH = 5*Hero.infos.level;
+        lvlBasedKH = 7*Hero.infos.level;
+        playerClassStr = 'HC';
         }
     if (playerClass == ('class' + CH)) {
-            lvlBasedHC = 7*Hero.infos.level;
-            lvlBasedCH = 9*Hero.infos.level;
-            lvlBasedKH = 5*Hero.infos.level;
-        }
+        lvlBasedHC = 7*Hero.infos.level;
+        lvlBasedCH = 9*Hero.infos.level;
+        lvlBasedKH = 5*Hero.infos.level;
+        playerClassStr = 'CH';
+    }
     if (playerClass == ('class' + KH)) {
-            lvlBasedHC = 5*Hero.infos.level;
-            lvlBasedCH = 7*Hero.infos.level;
-            lvlBasedKH = 9*Hero.infos.level;
-        }
+        lvlBasedHC = 5*Hero.infos.level;
+        lvlBasedCH = 7*Hero.infos.level;
+        lvlBasedKH = 9*Hero.infos.level;
+        playerClassStr = 'KH';
+    }
 
 	// each server needs equipment and girls to be setup
 	function setEquimentNutaku(){
@@ -284,11 +291,11 @@ function ButtonClickAction (enButtonEvent) {
 
 		equipment[2] = new Object();
 		equipment[2]['Position'] = 'LT';//linksoben
-		equipment[2]['HC'] = 2970;
-		equipment[2]['CH'] = 3066;
-		equipment[2]['KH'] = 3023;
-		equipment[2]['luck'] = 4008;
-		equipment[2]['endur'] = 2988;
+		equipment[2]['HC'] = 3041;
+		equipment[2]['CH'] = 3083;
+		equipment[2]['KH'] = 2997;
+		equipment[2]['luck'] = 4035;
+		equipment[2]['endur'] = 2955;
 
 		equipment[3] = new Object();
 		equipment[3]['Position'] = 'RM'; //rechtsmitte
@@ -386,6 +393,12 @@ function ButtonClickAction (enButtonEvent) {
 		girls[2].HC = 5*Hero.infos.level;
 		girls[2].CH = 13.25*Hero.infos.level;
 		girls[2].KH = 6.25*Hero.infos.level;
+
+		girls[3] = new Object();
+		girls[3].name = 'Shtupra';
+		girls[3].HC = 3.25*Hero.infos.level;
+		girls[3].CH = 13.5*Hero.infos.level;
+		girls[3].KH = 7.0*Hero.infos.level;
 
 		return girls;
 	}
@@ -647,18 +660,21 @@ function ButtonClickAction (enButtonEvent) {
             opponentAlphaAdd = opponentAlpha.caracs.carac1;
             opponentBetaAdd = opponentBeta.caracs.carac1;
             opponentOmegaAdd = opponentOmega.caracs.carac1;
+            opponentClassStr = 'HC';
         }
         if (opponentClass == ('class' + CH)) {
            // playerDef = playerDefCH;
             opponentAlphaAdd = opponentAlpha.caracs.carac2;
             opponentBetaAdd = opponentBeta.caracs.carac2;
             opponentOmegaAdd = opponentOmega.caracs.carac2;
+            opponentClassStr = 'CH';
         }
         if (opponentClass == ('class' + KH)) {
             //playerDef = playerDefKH;
             opponentAlphaAdd = opponentAlpha.caracs.carac3;
             opponentBetaAdd = opponentBeta.caracs.carac3;
             opponentOmegaAdd = opponentOmega.caracs.carac3;
+            opponentClassStr = 'KH';
         }
 		if (playerClass == ('class' + HC)) {
             opponentDef = opponentDefHC;
@@ -703,10 +719,10 @@ function ButtonClickAction (enButtonEvent) {
 	function initResultArray2(alphaRows,e){
 		// trial and error said: g<=e<=b
 		if (e<alphaRows) {e = alphaRows;}
-		// printing of points and left ego as a combined string, so no extra array dimension 
+		// printing of points and left ego as a combined string, so no extra array dimension
 
 		this.result = new Array(alphaRows);
-		for(igirl = 0; igirl<g; igirl++) {
+		for(igirl = 0; igirl<alphaRows; igirl++) {
 			this.result[igirl] = new Array(e);
 			for(jequip = 0; jequip<e; jequip++) {
 				//maybe 0 would be better
@@ -755,15 +771,16 @@ function ButtonClickAction (enButtonEvent) {
 	}
 
 	// girls array to get name which correlates with row number aka alphaRows
-    function createTable(girls, alphaRows){
+    function createTable(girls, alphaRows, boostCordy, boostGinseng){
 		//Hero.infos.level
         //reduced to 7 setups from 6 Multi to 6 Mono
-		let result;
-        result = '<table>';
-        let oppoEgo = $('#leagues_right div.lead_ego div:nth-child(2)').text();
-        result = result + '<tr>' + opponent.name  + ' & ' + opponentClass + ' & Ego: ' + oppoEgo + ' & HC: ' + opponentDefHCStr + ' & CH: ' + opponentDefCHStr + ' & KH ' + opponentDefKHStr + ' & Atk:' + opponentAtkStr +'</tr>';
-        result = result + '<tr><td>Alpha</td><td>6Mu0Mo</td><td>5Mu1Mo</td><td>4Mu2Mo</td><td>3Mu3Mo</td><td>2Mu4Mo</td><td>1Mu5Mo</td><td>0Mu6Mo</td></tr>';
-        for(i=0; i<(alphaRows+1); i++){
+        let result;
+        let cordy = boostCordy * 10;
+        let ginseng = boostGinseng * 100 / 6;
+        result = '<style> table, th, td {border: 1px solid #4d222c;   border-collapse: collapse;} th {background-color: #7d2038; color: #7d9938;} </style>';
+        result = result + '<table>';
+        result = result + '<th>' + ginseng + 'Gin, ' + cordy + 'Cord</th><th>6Mu 0Mo</th><th>5Mu 1Mo</th><th>4Mu 2Mo</th><th>3Mu 3Mo</th><th>2Mu 4Mo</th><th>1Mu 5Mo</th><th>0Mu 6Mo</th>';
+        for(i=0; i<(alphaRows); i++){
             result = result + '<tr><td>' + girls[i].name + '</td>';
             for (j=0; j<7;j++){
                 result = result + '<td>' + resultArray.result[i][j] + '</td>';
@@ -778,91 +795,188 @@ function ButtonClickAction (enButtonEvent) {
         girls = setGirlsNutaku();
         equips = setEquimentNutaku();
         alphaRows = 3;
-        boostCordy = 0.2;
-		boostGinseng = 0.12;
+        boostCordy = 0.2; //default setup of 2 & 2
+		boostGinseng = 0.12; //default setup of 2 & 2
 		resultArray = initResultArray2(alphaRows, equips.length);
-		
+
         // iterate through girls to set alpha, beta, omega
-		alphaRow = 0; //counter 
+		alphaRow = 0; //counter
 		alphaGirl = girls[0]; //Alexa
         betaGirl = girls[1]; //Any
 		omegaGirl = girls[2]; // Harmonia
 		setPlayerAndFight(alphaRow,haremBonusNutaku, boostCordy, boostGinseng);
 
-		alphaRow = 1; // counter 
+		alphaRow = 1; // counter
 		alphaGirl = girls[1];
 		betaGirl = girls[0];
 		omegaGirl = girls[2];
 		setPlayerAndFight(alphaRow, haremBonusNutaku, boostCordy, boostGinseng);
 
-		alphaRow = 2; //counter 
+		alphaRow = 2; //counter
 		alphaGirl = girls[2];
 		betaGirl = girls[0];
 		omegaGirl = girls[1];
 		setPlayerAndFight(alphaRow, haremBonusNutaku, boostCordy, boostGinseng);
+        //first setup calculated and print ready - add meta data
+        tableTemp = 'nutaku, ' + playerName + ', lvl' + Hero.infos.level + ', ' + playerClassStr + '<br>';
+        let oppoOrigEgo = $('#leagues_right div.lead_ego div:nth-child(2)').text();
+        let oppoLvl = $('#leagues_right .player_block .lead_player_profile .level_wrapper .level').text();
+        let luck = $('#leagues_right .player_block .stats_wrap div:nth-child(10)').text();
+        tableTemp = tableTemp + opponent.name  + ', lvl' + oppoLvl + ', ' + opponentClassStr + ', Ego ' + oppoOrigEgo + ', HC ' + opponentDefHCStr + ', CH ' + opponentDefCHStr + ', KH ' + opponentDefKHStr + ', Atk' + opponentAtkStr + ', luck ' + luck +'<br>';
+        tableTemp = tableTemp + createTable(girls, alphaRows, boostCordy, boostGinseng);
 
-        tableTemp = createTable(girls, alphaRow);
-		
-		//simulation step 1: different booster setup
-		boostCordy = 0.1;
-		boostGinseng = 0.18;
-		resultArray = initResultArray2(alphaRows, equips.length);
-		
+        // different booster setup
+        boostCordy = 0.1; //default setup of 2 & 2
+		boostGinseng = 0.18; //default setup of 2 & 2
+		resultArray = initResultArray2(alphaRows, equips.length); // just in case
+
         // iterate through girls to set alpha, beta, omega
-		alphaRow = 0; //counter 
+		alphaRow = 0; //counter
 		alphaGirl = girls[0]; //Alexa
         betaGirl = girls[1]; //Any
 		omegaGirl = girls[2]; // Harmonia
 		setPlayerAndFight(alphaRow,haremBonusNutaku, boostCordy, boostGinseng);
 
-		alphaRow = 1; // counter 
+		alphaRow = 1; // counter
 		alphaGirl = girls[1];
 		betaGirl = girls[0];
 		omegaGirl = girls[2];
 		setPlayerAndFight(alphaRow, haremBonusNutaku, boostCordy, boostGinseng);
 
-		alphaRow = 2; //counter 
+		alphaRow = 2; //counter
 		alphaGirl = girls[2];
 		betaGirl = girls[0];
 		omegaGirl = girls[1];
 		setPlayerAndFight(alphaRow, haremBonusNutaku, boostCordy, boostGinseng);
-		
-		tableTemp = tableTemp + '<br>';
-        tableTemp = tableTemp + createTable(girls, alphaRow);
-		
-		//finally print the table
-		entryTextArea.innerHTML = tableTemp;		
+
+        tableTemp = tableTemp + createTable(girls, alphaRows, boostCordy, boostGinseng);
+
+        // different booster setup
+        boostCordy = 0; //default setup of 2 & 2
+		boostGinseng = 0.24; //default setup of 2 & 2
+		resultArray = initResultArray2(alphaRows, equips.length); // just in case
+
+        // iterate through girls to set alpha, beta, omega
+		alphaRow = 0; //counter
+		alphaGirl = girls[0]; //Alexa
+        betaGirl = girls[1]; //Any
+		omegaGirl = girls[2]; // Harmonia
+		setPlayerAndFight(alphaRow,haremBonusNutaku, boostCordy, boostGinseng);
+
+		alphaRow = 1; // counter
+		alphaGirl = girls[1];
+		betaGirl = girls[0];
+		omegaGirl = girls[2];
+		setPlayerAndFight(alphaRow, haremBonusNutaku, boostCordy, boostGinseng);
+
+		alphaRow = 2; //counter
+		alphaGirl = girls[2];
+		betaGirl = girls[0];
+		omegaGirl = girls[1];
+		setPlayerAndFight(alphaRow, haremBonusNutaku, boostCordy, boostGinseng);
+
+        tableTemp = tableTemp + createTable(girls, alphaRows, boostCordy, boostGinseng);
+        entryTextArea.innerHTML = tableTemp;
     }
 
 	function doHeh(){
         girls = setGirlsHeh();
         equips = setEquimentHeh();
-        alphaRow = 1;
+        alphaRows = 2; // needs to match the number of combinations put into 1 created table
+        boostCordy = 0.2;
+        boostGinseng = 0.12;
         resultArray = initResultArray2(alphaRows, equips.length);
 
         // iterate through girls to set alpha, beta, omega
-		alphaRow = 0; // counter 
+		alphaRow = 0; // counter
 		alphaGirl = girls[0]; //NY Estelle
         betaGirl = girls[1]; //Himari
 		omegaGirl = girls[2]; // Filya
-		console.log('doHehGirls ' + alphaGirl.Name + betaGirl.Name + omegaGirl.Name);
-        setPlayerAndFight(alphaRow,haremBonusHeh, boostCordy, boostGinseng);
-/*
-		alphaRow = 1; //counter 
-		alphaGirl = girls[1];
-		betaGirl = girls[0];
-		omegaGirl = girls[2];
-		console.log('doNutakuGirls ' + alphaGirl.Name + betaGirl.Name + omegaGirl.Name);
-        setPlayerAndFight(alphaRow, haremBonusNutaku, boostCordy, boostGinseng);
+		setPlayerAndFight(alphaRow,haremBonusHeh, boostCordy, boostGinseng);
 
-		alphaRow = 2; // counter 
+		alphaRow = 1; //counter
+		alphaGirl = girls[3]; //Shtupra
+		betaGirl = girls[0]; //NY Estelle
+		omegaGirl = girls[2];
+        setPlayerAndFight(alphaRow, haremBonusNutaku, boostCordy, boostGinseng);
+/*
+		alphaRow = 2; // counter
 		alphaGirl = girls[2];
 		betaGirl = girls[0];
 		omegaGirl = girls[1];
 		console.log('doNutakuGirls ' + alphaGirl.Name + betaGirl.Name + omegaGirl.Name);
 		setPlayerAndFight(alphaRow, haremBonusNutaku, boostCordy, boostGinseng);
 */
-        entryTextArea.innerHTML = createTable(girls, alphaRows);
+        //first setup calculated and print ready - add meta data
+        tableTemp = 'HeH, ' + playerName + ', lvl' + Hero.infos.level + ', ' + playerClassStr + ', ginseng: ' + boostGinseng + ' cordy: ' + boostCordy + '<br>';
+        let oppoOrigEgo = $('#leagues_right div.lead_ego div:nth-child(2)').text();
+        let oppoLvl = $('#leagues_right .player_block .lead_player_profile .level_wrapper .level').text();
+        let luck = $('#leagues_right .player_block .stats_wrap div:nth-child(10)').text();
+        tableTemp = tableTemp + opponent.name  + ', lvl' + oppoLvl + ', ' + opponentClassStr + ', Ego ' + oppoOrigEgo + ', HC ' + opponentDefHCStr + ', CH ' + opponentDefCHStr + ', KH ' + opponentDefKHStr + ', Atk' + opponentAtkStr + ', luck ' + luck +'<br>';
+        tableTemp = tableTemp + createTable(girls, alphaRows, boostCordy, boostGinseng);
+
+        // different booster setup
+        boostCordy = 0.1; //default setup of 2 & 2
+		boostGinseng = 0.18; //default setup of 2 & 2
+		resultArray = initResultArray2(alphaRows, equips.length); // just in case
+
+        // iterate through girls to set alpha, beta, omega
+		alphaRow = 0; //counter
+		alphaGirl = girls[0]; //NY Estelle
+        betaGirl = girls[1]; //Himari
+		omegaGirl = girls[2]; // Filya
+		setPlayerAndFight(alphaRow,haremBonusHeh, boostCordy, boostGinseng);
+
+   		alphaRow = 1; //counter
+		alphaGirl = girls[3]; //Shtupra
+		betaGirl = girls[0]; //NY Estelle
+		omegaGirl = girls[2];
+        setPlayerAndFight(alphaRow, haremBonusNutaku, boostCordy, boostGinseng);
+
+
+        tableTemp = tableTemp + createTable(girls, alphaRows, boostCordy, boostGinseng);
+
+        // different booster setup
+        boostCordy = 0; //default setup of 2 & 2
+		boostGinseng = 0.24; //default setup of 2 & 2
+		resultArray = initResultArray2(alphaRows, equips.length); // just in case
+
+        // iterate through girls to set alpha, beta, omega
+		alphaRow = 0; //counter
+		alphaGirl = girls[0]; //NY Estelle
+        betaGirl = girls[1]; //Himari
+		omegaGirl = girls[2]; // Filya
+		setPlayerAndFight(alphaRow,haremBonusHeh, boostCordy, boostGinseng);
+
+        alphaRow = 1; //counter
+		alphaGirl = girls[3]; //Shtupra
+		betaGirl = girls[0]; //NY Estelle
+		omegaGirl = girls[2];
+        setPlayerAndFight(alphaRow, haremBonusNutaku, boostCordy, boostGinseng);
+
+        tableTemp = tableTemp + createTable(girls, alphaRows, boostCordy, boostGinseng);
+
+        // different booster setup
+        boostCordy = 0.4; //default setup of 2 & 2
+		boostGinseng = 0.0; //default setup of 2 & 2
+		resultArray = initResultArray2(alphaRows, equips.length); // just in case
+
+        // iterate through girls to set alpha, beta, omega
+		alphaRow = 0; //counter
+		alphaGirl = girls[0]; //NY Estelle
+        betaGirl = girls[1]; //Himari
+		omegaGirl = girls[2]; // Filya
+		setPlayerAndFight(alphaRow,haremBonusHeh, boostCordy, boostGinseng);
+
+        alphaRow = 1; //counter
+		alphaGirl = girls[3]; //Shtupra
+		betaGirl = girls[0]; //NY Estelle
+		omegaGirl = girls[2];
+        setPlayerAndFight(alphaRow, haremBonusNutaku, boostCordy, boostGinseng);
+
+
+        tableTemp = tableTemp + createTable(girls, alphaRows, boostCordy, boostGinseng);
+        entryTextArea.innerHTML = tableTemp;
     }
 
     //let myalpha = JSON.parse($('#leagues_left .girls_wrapper .team_girl[g=1]').attr('new-girl-tooltip-data'));
@@ -880,7 +994,7 @@ function ButtonClickAction (enButtonEvent) {
         for (j=0; j<spalten;j++){
             if (Hero.infos.id == idTestHeh) {
                 zeug = i+j;
-            } 
+            }
             tablei = tablei + '<td>' + zeug + ' & ' + tablea.result[i][j] + '|</td>';
         }
         tablei = tablei + '</tr>';
@@ -907,9 +1021,9 @@ function ButtonClickAction (enButtonEvent) {
         setTimeout(function() {
             if (JSON.parse($('#leagues_right .girls_wrapper .team_girl[g=3]').attr('new-girl-tooltip-data'))) {
                 sessionStorage.setItem('opntName', opntName);
-                if (Hero.infos.id == 1375928) {
+                if (Hero.infos.id == idNutaku) {
                     doNutaku();
-                } else if (Hero.infos.id == 959708) {
+                } else if (Hero.infos.id == idHeh) {
                     doHeh();
                 } else {alert('Testtest');}
             }
@@ -943,5 +1057,5 @@ sheet.insertRule('#simBtnContainer {'
                      + 'letter-spacing: .22px;'
                      + 'text-align: left !important;'
                      + 'color: #ffffff;'
-                     + 'background:#cc0033;'
+                     + 'background:#9c323f;'
                      );
