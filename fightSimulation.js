@@ -753,6 +753,24 @@ function ButtonClickAction (enButtonEvent) {
 			resultArray.result[girlsCombinations][jequip] = resultValue.pointsStr + ' & ' + resultValue.scoreStr;
 		}
 	}
+	
+	function createTable(girls, girlsCombinations){
+		//Hero.infos.level
+        //reduced to 7 setups from 6 Multi to 6 Mono
+        tableTemp = '<table>';
+        let tempEgo = $('#leagues_right div.lead_ego div:nth-child(2)').text();
+        tableTemp = tableTemp + '<tr>' + opponent.name  + ' & ' + opponentClass + ' & Ego: ' + tempEgo + ' & HC: ' + opponentDefHCStr + ' & CH: ' + opponentDefCHStr + ' & KH ' + opponentDefKHStr + ' & Atk:' + opponentAtkStr +'</tr>';
+        tableTemp = tableTemp + '<tr><td>Alpha</td><td>6Mu0Mo</td><td>5Mu1Mo</td><td>4Mu2Mo</td><td>3Mu3Mo</td><td>2Mu4Mo</td><td>1Mu5Mo</td><td>0Mu6Mo</td></tr>';
+        for(i=0; i<(girlsCombinations+1); i++){
+            tableTemp = tableTemp + '<tr><td>' + girls[i].name + '</td>';
+            for (j=0; j<7;j++){
+                tableTemp = tableTemp + '<td>' + resultArray.result[i][j] + '</td>';
+            }
+            tableTemp = tableTemp + '</tr>';
+        }
+        tableTemp = tableTemp + '</table>';
+        entryTextArea.innerHTML = tableTemp;
+	}
 
     function doNutaku(){
         girls = setGirlsNutaku();
@@ -779,21 +797,7 @@ function ButtonClickAction (enButtonEvent) {
 		omegaGirl = girls[1];
 		setPlayerAndFight(girlsCombinations, haremBonusNutaku);
 
-        //Hero.infos.level
-        //reduced to 7 setups from 6 Multi to 6 Mono
-        tableTemp = '<table>';
-        let tempEgo = $('#leagues_right div.lead_ego div:nth-child(2)').text();
-        tableTemp = tableTemp + '<tr>' + opponent.name  + ' & ' + opponentClass + ' & Ego: ' + tempEgo + ' & HC: ' + opponentDefHCStr + ' & CH: ' + opponentDefCHStr + ' & KH ' + opponentDefKHStr + ' & Atk:' + opponentAtkStr +'</tr>';
-        tableTemp = tableTemp + '<tr><td>Alpha</td><td>6Mu0Mo</td><td>5Mu1Mo</td><td>4Mu2Mo</td><td>3Mu3Mo</td><td>2Mu4Mo</td><td>1Mu5Mo</td><td>0Mu6Mo</td></tr>';
-        for(i=0; i<(girlsCombinations+1); i++){
-            tableTemp = tableTemp + '<tr><td>' + girls[i].name + '</td>';
-            for (j=0; j<7;j++){
-                tableTemp = tableTemp + '<td>' + resultArray.result[i][j] + '</td>';
-            }
-            tableTemp = tableTemp + '</tr>';
-        }
-        tableTemp = tableTemp + '</table>';
-        entryTextArea.innerHTML = tableTemp;
+        createTable(girls, girlsCombinations);
     }
 
 	function doHeh(){
@@ -824,18 +828,7 @@ function ButtonClickAction (enButtonEvent) {
 		console.log('doNutakuGirls ' + alphaGirl.Name + betaGirl.Name + omegaGirl.Name);
 		setPlayerAndFight(girlsCombinations, haremBonusNutaku);
 */
-        //reduced to 7 setups from 6 Multi to 6 Mono
-        tableTemp = '<table>';
-        tableTemp = tableTemp + '<tr><td>Alpha</td><td>6Mu0Mo</td><td>5Mu1Mo</td><td>4Mu2Mo</td><td>3Mu3Mo</td><td>2Mu4Mo</td><td>1Mu5Mo</td><td>0Mu6Mo</td></tr>';
-        for(i=0; i<(girlsCombinations+1); i++){
-            tableTemp = tableTemp + '<tr><td>' + girls[i].name + '</td>';
-            for (j=0; j<7;j++){
-                tableTemp = tableTemp + '<td>' + resultArray.result[i][j] + '</td>';
-            }
-            tableTemp = tableTemp + '</tr>';
-        }
-        tableTemp = tableTemp + '</table>';
-        entryTextArea.innerHTML = tableTemp;
+        createTable(girls, girlsCombinations);
     }
 
     //let myalpha = JSON.parse($('#leagues_left .girls_wrapper .team_girl[g=1]').attr('new-girl-tooltip-data'));
