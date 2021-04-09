@@ -1,3 +1,20 @@
+/*--- Create a button in a container div.  It will be styled and positioned with CSS.
+*/
+let entryNodeButton       = document.createElement ('div');
+entryNodeButton.innerHTML = '<button id="simulationButton" type="button">'
+                + 'Simulate fight!</button>'
+                ;
+entryNodeButton.setAttribute ('id', 'simBtnContainer');
+//zeigt an, welche Seite geladen sein muss, damit das div dazukommt
+if (window.location.pathname == '/tower-of-fame.html'){
+    document.body.appendChild (entryNodeButton);
+}
+
+//--- Activate the newly added button.
+document.getElementById ("simulationButton").addEventListener (
+    "click", ButtonClickAction, false
+);
+
 function ButtonClickAction (enButtonEvent) {
     //first the official variables, later the self made ones
 	var playerEgo;
@@ -122,83 +139,83 @@ function ButtonClickAction (enButtonEvent) {
 		//first 6 multi, then 6 mono
 		let equipment = new Array();
 		equipment[0] = new Object();
-		equipment[0]['Position'] = 'LT'; //linksoben
-		equipment[0]['HC'] = 3160;
-		equipment[0]['CH'] = 3193;
-		equipment[0]['KH'] = 3212;
-		equipment[0]['luck'] = 4218;
-		equipment[0]['endur'] = 3074;
+		equipment[0]['Position'] = 'RB'; //rechtsunten
+		equipment[0]['HC'] = 3199;
+		equipment[0]['CH'] = 3199;
+		equipment[0]['KH'] = 3243;
+		equipment[0]['luck'] = 4242;
+		equipment[0]['endur'] = 2961;
 
 		equipment[1] = new Object();
-		equipment[1]['Position'] = 'LM'; //linksmitte
-		equipment[1]['HC'] = 3181;
-		equipment[1]['CH'] = 3065;
-		equipment[1]['KH'] = 3236;
-		equipment[1]['luck'] = 4215;
-		equipment[1]['endur'] = 2994;
+		equipment[1]['Position'] = 'LT'; //linksoben
+		equipment[1]['HC'] = 3100;
+		equipment[1]['CH'] = 3260;
+		equipment[1]['KH'] = 3242;
+		equipment[1]['luck'] = 4242;
+		equipment[1]['endur'] = 3024;
 
 		equipment[2] = new Object();
-		equipment[2]['Position'] = 'LB';//linksunten
-		equipment[2]['HC'] = 3146;
-		equipment[2]['CH'] = 3132;
-		equipment[2]['KH'] = 3219;
-		equipment[2]['luck'] = 4216;
-		equipment[2]['endur'] = 3245;
+		equipment[2]['Position'] = 'LM';//linksmitte
+		equipment[2]['HC'] = 3167;
+		equipment[2]['CH'] = 3256;
+		equipment[2]['KH'] = 3238;
+		equipment[2]['luck'] = 4242;
+		equipment[2]['endur'] = 2959;
 
 		equipment[3] = new Object();
-		equipment[3]['Position'] = 'RT'; //rechtsoben
-		equipment[3]['HC'] = 3231;
-		equipment[3]['CH'] = 3200;
-		equipment[3]['KH'] = 3236;
-		equipment[3]['luck'] = 4218;
-		equipment[3]['endur'] = 2974;
+		equipment[3]['Position'] = 'LB'; //linksunten
+		equipment[3]['HC'] = 3250;
+		equipment[3]['CH'] = 3214;
+		equipment[3]['KH'] = 3221;
+		equipment[3]['luck'] = 4244;
+		equipment[3]['endur'] = 3066;
 
 		equipment[4] = new Object();
 		equipment[4]['Position'] = 'RM'; //rechtsmitte
-		equipment[4]['HC'] = 3141;
-		equipment[4]['CH'] = 3242;
-		equipment[4]['KH'] = 3239;
-		equipment[4]['luck'] = 4215;
-		equipment[4]['endur'] = 3046;
+		equipment[4]['HC'] = 3254;
+		equipment[4]['CH'] = 3247;
+		equipment[4]['KH'] = 3236;
+		equipment[4]['luck'] = 4243;
+		equipment[4]['endur'] = 3089;
 
 		equipment[5] = new Object();
-		equipment[5]['Position'] = 'RB'; //rechtsunten
-		equipment[5]['HC'] = 3184;
-		equipment[5]['CH'] = 3202;
-		equipment[5]['KH'] = 3215;
-		equipment[5]['luck'] = 4183;
-		equipment[5]['endur'] = 3097;
+		equipment[5]['Position'] = 'RT'; //rechtsoben
+		equipment[5]['HC'] = 3172;
+		equipment[5]['CH'] = 3238;
+		equipment[5]['KH'] = 3262;
+		equipment[5]['luck'] = 4244;
+		equipment[5]['endur'] = 3166;
 
 		//now 6 mono
 		equipment[6] = new Object();
-		equipment[6]['Position'] = 'LT'; //linksoben
+		equipment[6]['Position'] = 'RB'; //rechtsunten
 		equipment[6]['HC'] = 0;
 		equipment[6]['CH'] = 0;
-		equipment[6]['KH'] = 5068;
+		equipment[6]['KH'] = 5187;
 		equipment[6]['luck'] = 0;
 		equipment[6]['endur'] = 0;
 
 		equipment[7] = new Object();
-		equipment[7]['Position'] = 'LM'; //linksmitte
+		equipment[7]['Position'] = 'LT'; //linksoben
 		equipment[7]['HC'] = 0;
 		equipment[7]['CH'] = 0;
-		equipment[7]['KH'] = 5052;
+		equipment[7]['KH'] = 5185;
 		equipment[7]['luck'] = 0;
 		equipment[7]['endur'] = 0;
 
 		equipment[8] = new Object();
-		equipment[8]['Position'] = 'LB';//linksunten
+		equipment[8]['Position'] = 'LM';//linksmitte
 		equipment[8]['HC'] = 0;
 		equipment[8]['CH'] = 0;
-		equipment[8]['KH'] = 5143;
+		equipment[8]['KH'] = 5165;
 		equipment[8]['luck'] = 0;
 		equipment[8]['endur'] = 0;
 
 		equipment[9] = new Object();
-		equipment[9]['Position'] = 'RT'; //rechtsoben
+		equipment[9]['Position'] = 'LB'; //linksunten
 		equipment[9]['HC'] = 0;
 		equipment[9]['CH'] = 0;
-		equipment[9]['KH'] = 5116;
+		equipment[9]['KH'] = 5143;
 		equipment[9]['luck'] = 0;
 		equipment[9]['endur'] = 0;
 
@@ -206,15 +223,15 @@ function ButtonClickAction (enButtonEvent) {
 		equipment[10]['Position'] = 'RM'; //rechtsmitte
 		equipment[10]['HC'] = 0;
 		equipment[10]['CH'] = 0;
-		equipment[10]['KH'] = 5068;
+		equipment[10]['KH'] = 5151;
 		equipment[10]['luck'] = 0;
 		equipment[10]['endur'] = 0;
 
 		equipment[11] = new Object();
-		equipment[11]['Position'] = 'RB'; //rechtsunten
+		equipment[11]['Position'] = 'RT'; //rechtsoben
 		equipment[11]['HC'] = 0;
 		equipment[11]['CH'] = 0;
-		equipment[11]['KH'] = 5187;
+		equipment[11]['KH'] = 5116;
 		equipment[11]['luck'] = 0;
 		equipment[11]['endur'] = 0;
 
@@ -603,6 +620,8 @@ function ButtonClickAction (enButtonEvent) {
             let currentPlayer;
 
             currentPlayer = createPlayer(alphaGirl, betaGirl, omegaGirl, boostCordy, boostGinseng, equipSums, haremBonus);
+            createOpponent();
+
 
 			//get result for this combo
 			resultValue = simuFight(currentPlayer, opponent);
@@ -612,7 +631,7 @@ function ButtonClickAction (enButtonEvent) {
 					playerEgoCheck: playerEgoCheck,
 					points: pointsInt,
 					pointsStr: pointsStr // mit Formatierung	*/
-			resultArray.result[girlsCombinations][jequip] = resultValue.pointsStr + ' & ' + resultValue.scoreStr + '|';
+			resultArray.result[girlsCombinations][jequip] = resultValue.pointsStr + ' & ' + resultValue.scoreStr;
 		}
 	}
 
@@ -627,25 +646,25 @@ function ButtonClickAction (enButtonEvent) {
 		alphaGirl = girls[0]; //Alexa
         betaGirl = girls[1]; //Any
 		omegaGirl = girls[2]; // Harmonia
-		console.log('doNutaku girls' + alphaGirl.Name + betaGirl.Name + omegaGirl.Name);
-		setPlayerAndFight(girlsCombinations,haremBonusNutaku);
+		console.log('doNutakuGirls ' + alphaGirl.Name + betaGirl.Name + omegaGirl.Name);
+        setPlayerAndFight(girlsCombinations,haremBonusNutaku);
 
 		girlsCombinations = 1; //reuse as counter - might be bad style^^
 		alphaGirl = girls[1];
 		betaGirl = girls[0];
 		omegaGirl = girls[2];
-		console.log('doNutaku girls' + alphaGirl.Name + betaGirl.Name + omegaGirl.Name);
-		setPlayerAndFight(girlsCombinations, haremBonusNutaku);
+		console.log('doNutakuGirls ' + alphaGirl.Name + betaGirl.Name + omegaGirl.Name);
+        setPlayerAndFight(girlsCombinations, haremBonusNutaku);
 
 		girlsCombinations = 2; //reuse as counter - might be bad style^^
 		alphaGirl = girls[2];
 		betaGirl = girls[0];
 		omegaGirl = girls[1];
-		console.log('doNutaku girls' + alphaGirl.Name + betaGirl.Name + omegaGirl.Name);
+		console.log('doNutakuGirls ' + alphaGirl.Name + betaGirl.Name + omegaGirl.Name);
 		setPlayerAndFight(girlsCombinations, haremBonusNutaku);
 
         tableTemp = '<table>';
-        tableTemp = tableTemp + '<tr><td>6Mu0Mo</td><td>5Mu1Mo</td><td>4Mu2Mo</td><td>3Mu3Mo</td><td>2Mu4Mo</td><td>1Mu5Mo</td><td>0Mu6Mo</td><td>1Mu5Mo</td><td>2Mu4Mo</td><td>3Mu3Mo</td><td>4Mu2Mo</td><td>5Mu1Mo</td></tr>';
+        tableTemp = tableTemp + '<tr><td>Alpha</td><td>6Mu0Mo</td><td>5Mu1Mo</td><td>4Mu2Mo</td><td>3Mu3Mo</td><td>2Mu4Mo</td><td>1Mu5Mo</td><td>0Mu6Mo</td><td>1Mu5Mo</td><td>2Mu4Mo</td><td>3Mu3Mo</td><td>4Mu2Mo</td><td>5Mu1Mo</td></tr>';
         for(i=0; i<(girlsCombinations+1); i++){
             tableTemp = tableTemp + '<tr>';
             for (j=0; j<equips.length;j++){
@@ -695,3 +714,19 @@ function ButtonClickAction (enButtonEvent) {
 
 
 }
+
+sheet.insertRule('#simBtnContainer {'
+                     + 'display: block;'
+                     + 'position: absolute;'
+                     + 'left: 20px;'
+                     + 'top: 150px;'
+                     + 'z-index: 15;'
+                     + 'margin: 2px;'
+                     + 'padding: 2px 2px;'
+                     + 'font-size: 20px;'
+                     + 'font-weight: 400;'
+                     + 'letter-spacing: .22px;'
+                     + 'text-align: left !important;'
+                     + 'color: #ffffff;'
+                     + 'background:#cc0033;'
+                     );
