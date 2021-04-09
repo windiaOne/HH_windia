@@ -17,7 +17,7 @@ document.getElementById ("simulationButton").addEventListener (
 );
 
 function ButtonClickAction (enButtonEvent) {
-    //first the official variables, later the self made ones 
+    //first the official variables, later the self made ones
 	var playerEgo;
     var playerEgoCheck;
     var playerDefHC;
@@ -58,8 +58,8 @@ function ButtonClickAction (enButtonEvent) {
     var opponentOrgasmCount;
 
     var matchRating;
-	
-	// new "global" variables that work either independent from server or avoid using them as function value 
+
+	// new "global" variables that work either independent from server or avoid using them as function value
 	let entryTextArea = document.createElement ('p'); //a line of text to the screen.
 	let idNutaku; // identify yourself to use correct girl & equipment for simulation
 	let idHeh;
@@ -88,7 +88,7 @@ function ButtonClickAction (enButtonEvent) {
 	haremBonusHeh = 15505;
 	haremBonusTestHeh = 12223;
 	//currently everything is maxed and gives 10 % on hc, ch, kh, endur, harmony etc.
-	clubbonus = 0.1; 
+	clubbonus = 0.1;
 	// assumption: you buy always everything
 	boughtStatHC = Hero.infos.level*30;
 	boughtStatCH = Hero.infos.level*30;
@@ -109,7 +109,7 @@ function ButtonClickAction (enButtonEvent) {
             lvlBasedCH = 7*Hero.infos.level;
             lvlBasedKH = 9*Hero.infos.level;
         }
-	
+
 	// each server needs equipment and girls to be setup
 	function setEquimentNutaku(){
 		//not sure if rewrite is neccessary to get complete simulation
@@ -122,7 +122,7 @@ function ButtonClickAction (enButtonEvent) {
 		equipment[0]['KH'] = 3212;
 		equipment[0]['luck'] = 4218;
 		equipment[0]['endur'] = 3074;
-		
+
 		equipment[1] = new Object();
 		equipment[1]['Position'] = 'LM'; //linksmitte
 		equipment[1]['HC'] = 3181;
@@ -163,7 +163,7 @@ function ButtonClickAction (enButtonEvent) {
 		equipment[5]['luck'] = 4183;
 		equipment[5]['endur'] = 3097;
 
-		//now 6 mono 
+		//now 6 mono
 		equipment[6] = new Object();
 		equipment[6]['Position'] = 'LT'; //linksoben
 		equipment[6]['HC'] = 0;
@@ -203,7 +203,7 @@ function ButtonClickAction (enButtonEvent) {
 		equipment[10]['KH'] = 5068;
 		equipment[10]['luck'] = 0;
 		equipment[10]['endur'] = 0;
-		
+
 		equipment[11] = new Object();
 		equipment[11]['Position'] = 'RB'; //rechtsunten
 		equipment[11]['HC'] = 0;
@@ -211,7 +211,7 @@ function ButtonClickAction (enButtonEvent) {
 		equipment[11]['KH'] = 5187;
 		equipment[11]['luck'] = 0;
 		equipment[11]['endur'] = 0;
-		
+
 		return equipment;
 	}
 
@@ -224,47 +224,47 @@ function ButtonClickAction (enButtonEvent) {
 		girls[0]['upgradedCH'] = 7.28*Hero.infos.level;
 		girls[0]['upgradedKH'] = 15.12*Hero.infos.level;
 		girls[0]['excitement'] = (girls[0].upgradedHC + girls[0].upgradedCH + girls[0].upgradedKH)*28;
-		//endurance muss noch addiert werden 
+		//endurance muss noch addiert werden
 		girls[0]['egoPart'] = girls[0].upgradedKH*11;
 
-		
+
 		girls[1] = new Object();
 		girls[1]['Name'] = 'Any';
 		girls[1]['upgradedHC'] = 6.25*Hero.infos.level;
 		girls[1]['upgradedCH'] = 4*Hero.infos.level;
 		girls[1]['upgradedKH'] = 13.5*Hero.infos.level;
 		girls[1]['excitement'] = (girls[1].upgradedHC + girls[1].upgradedCH + girls[1].upgradedKH)*28;
-		//endurance muss noch addiert werden 
+		//endurance muss noch addiert werden
 		girls[1]['egoPart'] = girls[1].upgradedKH*11;
-		
+
 		girls[2] = new Object();
 		girls[2].Name = 'Harmonia';
 		girls[2].upgradedHC = 3.75*Hero.infos.level;
 		girls[2].upgradedCH = 7.5*Hero.infos.level;
 		girls[2].upgradedKH = 13.25*Hero.infos.level;
 		girls[2].excitement = (girls[2].upgradedHC + girls[2].upgradedCH + girls[2].upgradedKH)*28;
-		//endurance muss noch addiert werden 
+		//endurance muss noch addiert werden
 		girls[2].egoPart = girls[2].upgradedKH*11;
-		
+
 		return girls;
 	}
 
-	// general functions used 
-	
+	// general functions used
+
 	function calculateAttack(player1stStat, alpha1st, boostCordy){
 		// full formula needs integration of boostFix
 		// beta1st and omega1st are done in simuFight()
 		let result;
 		result = Math.round((player1stStat + 3* alpha1st) * (1+ boostCordy));
 		// + 1.3* beta1st + omega1st + ? boostFix;
-		
+
 		return result;
 	}
-	
+
 	function calculateDefMain(player2ndStat, player3rdStat, alpha2nd, alpha3rd){
-		/*[Defense against your Main stat] = ( [Hero's secondary stat] / 2 + [Hero's tertiary stat] / 2 
+		/*[Defense against your Main stat] = ( [Hero's secondary stat] / 2 + [Hero's tertiary stat] / 2
 											+ 1.5 × [Hero's secondary stat on Alpha] + 1.5 × [Hero's tertiary stat on Alpha] )
-											/ 2 
+											/ 2
 										+ 1.75 × ([Hero's Main stat on Beta if in fight] + [Hero's Main stat on Omega if in fight])	*/
 		let result;
 		//abgefragter Wert ist nur der "alpha im Kampf" erstmal
@@ -272,31 +272,31 @@ function ButtonClickAction (enButtonEvent) {
 		result  = Math.round((player2ndStat/2 + player3rdStat/2 + 1.5* alpha2nd + 1.5* alpha3rd) / 2);
 		//result.alphaBeta = result.alpha + 1.75* beta1st;
 		//result.alphaBetaOmega = result.alphabeta + omega1st;
-		
+
 		return result;
 	}
-	
+
 	function calculateDefSideX(heroXStat, alphaX){
 		let result;
 		result = Math.round(heroXStat/2 + 1.5* alphaX);
-		
+
 		return result;
 	}
-	
+
 	function calculateEgo(endurance, alpha1st) {
 		let result;
 		result = Math.round(endurance + 11*alpha1st);
 		return result;
 	}
-	
-	// boostFix ignored due to high lvl, clubbonus is currently even, so no difference 
+
+	// boostFix ignored due to high lvl, clubbonus is currently even, so no difference
 	function calculateEndurance(equipSums, haremBonus, boostGinseng) {
 		let result;
 		let part1;
 		let part2;
 		let part3;
 		let part4;
-		
+
 		/*// forum said to floor all
 		//self observed numbers said first floored and the others rounded seems to be closest (only differs a bit with 6 mono)
 		part1 = Math.floor(((lvlBase1st+bought1st)*5 + (lvlBase2nd+bought2nd)*2 + sumEquipEndur + haremBonus) * (1+clubEndur));
@@ -304,7 +304,7 @@ function ButtonClickAction (enButtonEvent) {
 		part3 = Math.round((sumEquip1st + boostFix1st) * (1+club1st))*5 + Math.round((sumEquip2nd + boostFix2nd) * (1+club2nd))*2;
 		part4 = Math.round((lvlBase1st + bought1st + sumEquip1st + boostFix1st)*boostGinseng)*5 + Math.round((lvlBase2nd + bought2nd + sumEquip2nd + boostFix2nd)*boostGinseng)*2;
 		https://forum.hentaiheroes.com/index.php?/topic/14607-endurance-stat-formula/&tab=comments#comment-192633*/
-		
+
 		if (playerClass == ('class' + HC)) {
 			part1 = Math.floor(((lvlBasedHC + boughtStatHC)*5 + (lvlBasedKH + boughtStatKH)*2 + equipSums.endur + haremBonus) * (1+clubbonus));
 			part2 = Math.round((lvlBasedHC + boughtStatHC)*(clubbonus))*5 + Math.round((lvlBasedKH + boughtStatKH)*(clubbonus))*2;
@@ -324,7 +324,7 @@ function ButtonClickAction (enButtonEvent) {
 			part4 = Math.round((lvlBasedKH + boughtStatKH + equipSums.KH)* boostGinseng)*5 + Math.round((lvlBasedCH + boughtStatCH + equipSums.CH)* boostGinseng)*2;
 		}
 		result = part1 + part2 + part3 + part4;
-		
+
 		return result;
 	}
 
@@ -342,32 +342,32 @@ function ButtonClickAction (enButtonEvent) {
 
 	//equipSums besteht aus 5 Werten, die aus dem Equiment-Array erzeugt werden müssen - der Rest is "global variable"
 	function calculatePlayerMarket(equipSums, boostGinseng){
-	//boostFix wäre vor dem Runden drauf zu rechnen, nutze ich jetzt nicht 
+	//boostFix wäre vor dem Runden drauf zu rechnen, nutze ich jetzt nicht
 		let result;
-		
+
 		if (playerClass == ('class' + HC)) {
-			result.player1stStat = Math.round((lvlBasedHC + boughtStatHC + equipSums.HC) * (1+ clubbonus + boostGinseng)); 
-            result.player2ndStat = Math.round((lvlBasedKH + boughtStatKH + equipSums.KH) * (1+ clubbonus + boostGinseng)); 
-			result.player3rdStat = Math.round((lvlBasedCH + boughtStatCH + equipSums.CH) * (1+ clubbonus + boostGinseng)); 
+			result.player1stStat = Math.round((lvlBasedHC + boughtStatHC + equipSums.HC) * (1+ clubbonus + boostGinseng));
+            result.player2ndStat = Math.round((lvlBasedKH + boughtStatKH + equipSums.KH) * (1+ clubbonus + boostGinseng));
+			result.player3rdStat = Math.round((lvlBasedCH + boughtStatCH + equipSums.CH) * (1+ clubbonus + boostGinseng));
         }
 		if (playerClass == ('class' + CH)) {
-			result.player1stStat = Math.round((lvlBasedCH + boughtStatCH + equipSums.CH) * (1+ clubbonus + boostGinseng)); 
-            result.player2ndStat = Math.round((lvlBasedHC + boughtStatHC + equipSums.HC) * (1+ clubbonus + boostGinseng)); 
-			result.player3rdStat = Math.round((lvlBasedKH + boughtStatKH + equipSums.KH) * (1+ clubbonus + boostGinseng)); 
+			result.player1stStat = Math.round((lvlBasedCH + boughtStatCH + equipSums.CH) * (1+ clubbonus + boostGinseng));
+            result.player2ndStat = Math.round((lvlBasedHC + boughtStatHC + equipSums.HC) * (1+ clubbonus + boostGinseng));
+			result.player3rdStat = Math.round((lvlBasedKH + boughtStatKH + equipSums.KH) * (1+ clubbonus + boostGinseng));
         }
 		if (playerClass == ('class' + KH)) {
-			result.player1stStat = Math.round((lvlBasedKH + boughtStatKH + equipSums.KH) * (1+ clubbonus + boostGinseng)); 
-            result.player2ndStat = Math.round((lvlBasedCH + boughtStatCH + equipSums.CH) * (1+ clubbonus + boostGinseng)); 
-			result.player3rdStat = Math.round((lvlBasedHC + boughtStatHC + equipSums.HC) * (1+ clubbonus + boostGinseng)); 
+			result.player1stStat = Math.round((lvlBasedKH + boughtStatKH + equipSums.KH) * (1+ clubbonus + boostGinseng));
+            result.player2ndStat = Math.round((lvlBasedCH + boughtStatCH + equipSums.CH) * (1+ clubbonus + boostGinseng));
+			result.player3rdStat = Math.round((lvlBasedHC + boughtStatHC + equipSums.HC) * (1+ clubbonus + boostGinseng));
         }
-	
+
 		return result;
 	}
 
 	function calculateExcitment(alpha1st, alpha2nd, alpha3rd){
 		let result;
 		result = Math.round((alpha1st + alpha2nd + alpha3rd) * 28);
-		
+
 		return result;
 	}
 
@@ -376,31 +376,31 @@ function ButtonClickAction (enButtonEvent) {
 		let result;
 		result = new Object();
 		result.caracs = new Object();
-		result.caracs.carac1 = hc; 
-		result.caracs.carac2 = ch; 
+		result.caracs.carac1 = hc;
+		result.caracs.carac2 = ch;
 		result.caracs.carac3 = kh;
-		
+
 		return result;
 	}
-		
+
 	/* girls as objects as in Array set, equipment precalculated, haremBonus = server decision*/
 	function createPlayer(alphaGirl, betaGirl, omegaGirl, boostCordy, boostGinseng, equipSums, haremBonus){
-		let playerMarket; //was im Markt angezeigt wird, hängt an Klasse und Equipment 
+		let playerMarket; //was im Markt angezeigt wird, hängt an Klasse und Equipment
 		let endurance;
 
 		// INIT
         playerClass = $('#leagues_left .icon').attr('carac');
 		playerMarket = calculatePlayerMarket(equipSums, boostGinseng);
 		endurance = calculateEndurance(equipSums, haremBonus, boostGinseng);
-        
+
 		//Atk & Def depends on class, so calculation moved down
-		// for structure of "player" - no other use found so far^^ 
+		// for structure of "player" - no other use found so far^^
         playerAlpha = setGirl4Team(alphaGirl.upgradedHC, alphaGirl.upgradedCH, alphaGirl.upgradedKH);
         playerBeta = setGirl4Team(betaGirl.upgradedHC, betaGirl.upgradedCH, betaGirl.upgradedKH);
         playerOmega = setGirl4Team(omegaGirl.upgradedHC, omegaGirl.upgradedCH, omegaGirl.upgradedKH);
         //just in case, this global variable might already be initiated using createOpponent()
 		opponentClass = $('#leagues_right .icon').attr('carac');
-		
+
 		if (playerClass == ('class' + HC)) {
             playerAlphaAdd = alphaGirl.upgradedHC;
             playerBetaAdd = betaGirl.upgradedHC;
@@ -449,13 +449,13 @@ function ButtonClickAction (enButtonEvent) {
         }
 
         let playerTeam = [0, playerAlphaAdd, playerBetaAdd, playerOmegaAdd];
-    
+
         let player = {
             ego: playerEgo,
             originEgo: playerEgo,
             atk: playerAtk,
             def: playerDef,
-			
+
 			//use still unknown
             alpha: playerAlpha,
             beta: playerBeta,
@@ -469,16 +469,16 @@ function ButtonClickAction (enButtonEvent) {
 
             text: 'Player',
         };
-		
+
 		let result;
 		result = player;
 		return result;
 	}
-	
-	// return should not be needed 
+
+	// return should not be needed
 	function createOpponent() {
 		//using live values and global attributes
-		playerClass = $('#leagues_left .icon').attr('carac'); 
+		playerClass = $('#leagues_left .icon').attr('carac');
         opponentClass = $('#leagues_right .icon').attr('carac');
         opponentEgo = parseInt($('#leagues_right div.lead_ego div:nth-child(2)').text().replace(/[^0-9]/gi, ''), 10);
         opponentAlpha = JSON.parse($('#leagues_right .girls_wrapper .team_girl[g=1]').attr('new-girl-tooltip-data'));
@@ -497,7 +497,7 @@ function ButtonClickAction (enButtonEvent) {
 
         opponentAtkStr = $('#leagues_right div.stats_wrap div:nth-child(8)').text();
         opponentAtk = (opponentAtkStr.includes('.') || opponentAtkStr.includes(',')) ? parseInt(opponentAtkStr.replace('K', '00').replace(/[^0-9]/gi, ''), 10) : parseInt(opponentAtkStr.replace('K', '000').replace(/[^0-9]/gi, ''), 10);
-		
+
 		if (opponentClass == ('class' + HC)) {
            // playerDef = playerDefHC;
             opponentAlphaAdd = opponentAlpha.caracs.carac1;
@@ -527,7 +527,7 @@ function ButtonClickAction (enButtonEvent) {
         }
 
 		opponentTeam = [0, opponentAlphaAdd, opponentBetaAdd, opponentOmegaAdd];
-		
+
 		opponent = {
             ego: opponentEgo,
             originEgo: parseInt($('#leagues_right .lead_ego div:nth-child(2)').text().replace(/[^0-9]/gi, ''), 10),
@@ -546,30 +546,31 @@ function ButtonClickAction (enButtonEvent) {
             text: 'Opponent',
             name: $('#leagues_right .player_block .title').text()
         };
-		
+
 		// because reasons
 		let result = opponent;
 		return result;
 	}
-    
-	//needs the dimensions of the arrays Girl, Equipment - no Booster
+
+    //needs the dimensions of the arrays Girl, Equipment - no Booster
 	function initResultArray2(g,e){
-		// gemäß Versuch&Irrtum muss g<=e<=b sein 
+		// gemäß Versuch&Irrtum muss g<=e<=b sein
 		if (e<g) {e = g;}
 		// auf jeder Ebene kann alles ausgegeben werden, also ego/punkte könnte auf eigenes Array und "ganz" ausgeben
 		// oder schlicht als String :)
-		
+
 		this.result = new Array(g);
 		for(igirl = 0; igirl<g; igirl++) {
 			this.result[igirl] = new Array(e);
 			for(jequip = 0; jequip<e; jequip++) {
 				//maybe 0 would be better
-				this.result[igirl][jequip] = igirl*1000 + jequip*100;
+				this.result[igirl][jequip] = igirl*100000 + jequip*100;
 			}
 		}
 		//ist bei this eigentlich implizit
 		return this;
 	}
+
 
         playerClass = $('#leagues_left .icon').attr('carac');
         playerEgo = Math.round(Hero.infos.caracs.ego);
@@ -659,7 +660,7 @@ function ButtonClickAction (enButtonEvent) {
             text: 'Player',
         };
 
-        opponent = {
+         opponent = {
             ego: opponentEgo,
             originEgo: parseInt($('#leagues_right .lead_ego div:nth-child(2)').text().replace(/[^0-9]/gi, ''), 10),
             atk: opponentAtk,
@@ -678,30 +679,14 @@ function ButtonClickAction (enButtonEvent) {
             name: $('#leagues_right .player_block .title').text()
         }
         simuresult = simuFight(player, opponent);
-        
-    
+        ;
 
+    //let myalpha = JSON.parse($('#leagues_left .girls_wrapper .team_girl[g=1]').attr('new-girl-tooltip-data'));
+    //Hero.infos.id == 123 && window.location.hostname == "www.hentaiheroes.com"
     entryTextArea.innerHTML =	leer;
-    entryTextArea.innerHTML =	 '<table>'
-		+ '<tr><td>playerEgo' +'</td><td>'+playerEgo+'</td><td>'+leer+'</td><td>opponentEgo'+'</td><td>'+opponentEgo+'</td></tr>'
-		+ '<tr><td>playerEgoCheck' +'</td><td>'+playerEgoCheck+'</td><td>'+leer+'</td><td>'+leer+'</td><td>'+leer+'</td></tr>'
-		+ '<tr><td>playerDefHC' +'</td><td>'+playerDefHC+'</td><td>'+leer+'</td><td>opponentDefHC'+'</td><td>'+opponentDefHC+'</td></tr>'
-		+ '<tr><td>'+leer+'</td><td>'+leer+'</td><td>'+leer+'</td><td>opponentDefHCStr'+'</td><td>'+opponentDefHCStr+'</td></tr>'
-		+ '<tr><td>playerDefCH' +'</td><td>'+playerDefCH+'</td><td>'+leer+'</td><td>opponentDefCH'+'</td><td>'+opponentDefCH+'</td></tr>'
-		+ '<tr><td>'+leer+'</td><td>'+leer+'</td><td>'+leer+'</td><td>opponentDefCHStr'+'</td><td>'+opponentDefCHStr+'</td></tr>'
-		+ '<tr><td>playerDefKH' +'</td><td>'+playerDefKH+'</td><td>'+leer+'</td><td>opponentDefKH'+'</td><td>'+opponentDefKH+'</td></tr>'
-		+ '<tr><td>'+leer+'</td><td>'+leer+'</td><td>'+leer+'</td><td>opponentDefKHStr'+'</td><td>'+opponentDefKHStr+'</td></tr>'
-		+ '<tr><td>playerAtk' +'</td><td>'+playerAtk+'</td><td>'+leer+'</td><td>opponentAtk'+'</td><td>'+opponentAtk+'</td></tr>'
-		+ '<tr><td>'+leer +'</td><td>'+leer+'</td><td>'+leer+'</td><td>opponentAtkStr'+'</td><td>'+opponentAtkStr+'</td></tr>'
-		+ '<tr><td>playerDef' +'</td><td>'+playerDef+'</td><td>'+leer+'</td><td>opponentDef'+'</td><td>'+opponentDef+'</td></tr>'
-		+ '<tr><td>score' +'</td><td>'+simuresult.score+'</td><td>'+leer+'</td><td>opponentClass'+'</td><td>'+opponentClass+'</td></tr>'
-		+ '<tr><td>scoreStr' +'</td><td>'+simuresult.scoreStr+'</td><td>'+leer+'</td><td>opponentExcitement'+'</td><td>'+opponentExcitement+'</td></tr>'
-		+ '<tr><td>scoreClass' +'</td><td>'+simuresult.scoreClass+'</td><td>'+leer+'</td><td>opponentAlphaAdd'+'</td><td>'+opponentAlphaAdd+'</td></tr>'
-		+ '<tr><td>playerEgoCheck' +'</td><td>'+simuresult.playerEgoCheck+'</td><td>'+leer+'</td><td>opponentBetaAdd'+'</td><td>'+opponentBetaAdd+'</td></tr>'
-		+ '<tr><td>points' +'</td><td>'+simuresult.points+'</td><td>'+leer+'</td><td>opponentOmegaAdd'+'</td><td>'+opponentOmegaAdd+'</td></tr>'
-		+ '<tr><td>hero: ' +'</td><td>'+ Hero.infos.id +'</td><td>'+leer+'</td><td>gebaut '+ 'class'+ CH + '</td><td>'+$('#leagues_right .player_block .title').text()+'</td></tr>'
-		+ '</table>'    ;
-	let tablea;
+
+
+    let tablea;
     let tablei = '<table>';
     let spalten=12; let zeilen=3;
     let zeug;
@@ -720,6 +705,7 @@ function ButtonClickAction (enButtonEvent) {
     }
     tablei = tablei + '</table>';
     entryTextArea.innerHTML = tablei;
+
     document.getElementById ("simBtnContainer").appendChild(entryTextArea);
 
 
