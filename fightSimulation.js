@@ -5,19 +5,14 @@ let simulationButtonNode       = document.createElement ('div');
 simulationButtonNode.innerHTML = '<button id="simulationButton" type="button">Simulate fight!</button>';
 simulationButtonNode.setAttribute ('id', 'simBtnContainer');
 
-let linuxbutton = document.createElement('div');
-linuxbutton.innerHTML = '<button id="linuxbut" type="button">Change!</button>';
-linuxbutton.setAttribute('id', 'linBtnCont');
-
 let simulationTable = document.createElement('div');
-simulationTable.innerHTML = '<p id="paragraph">Linuxhint</p>';
+simulationTable.innerHTML = '<p id="paragraph">go sim!</p>';
 simulationTable.setAttribute('id', 'simTableContainer');
 
 
 //zeigt an, welche Seite geladen sein muss, damit das div dazukommt
 if (window.location.pathname == '/tower-of-fame.html'){
     document.body.appendChild (simulationButtonNode);
-    document.body.appendChild(linuxbutton);
     document.body.appendChild(simulationTable);
 }
 
@@ -25,11 +20,9 @@ if (window.location.pathname == '/tower-of-fame.html'){
 document.getElementById ("simulationButton").addEventListener (
     "click", simButtonClickAction, false
 );
-document.getElementById("linuxbut").addEventListener(
-	"click", change, false
-	);
 
-let printTable = 1; // global variable to switch between printed and hidden simulation table -> 1 = print 
+
+let printTable = 1; // global variable to switch between printed and hidden simulation table -> 1 = print
 
 function simButtonClickAction (enButtonEvent) {
     //first the official variables, later the self made ones
@@ -119,9 +112,9 @@ function simButtonClickAction (enButtonEvent) {
 
 
 	// setting global variables
-	idNutaku = 	123123;
-	idHeh = 456456;
-	idTestHeh = 789789;
+	idNutaku = 	1375928;
+	idHeh = 959708;
+	idTestHeh = 2110;
     playerName = $('#leagues_left .player_block .title').text();
 	//take directly from harem's overview - needs to be refreshed any time a girl is seducted or upgraded/upleveled
 	haremBonusNutaku = 20196;
@@ -492,8 +485,8 @@ function simButtonClickAction (enButtonEvent) {
 		if (playerClass == ('class' + KH)) {
 			part1 = Math.floor(((lvlBasedKH + boughtStatKH)*5 + (lvlBasedCH + boughtStatCH)*2 + equipSums.endur + haremBonus) * (1+clubbonus));
 			part2 = Math.floor((lvlBasedKH + boughtStatKH)*(clubbonus))*5 + Math.round((lvlBasedCH + boughtStatCH)*(clubbonus))*2;
-			part3 = Math.floor((equipSums.KH) * (1+clubbonus))*5 + Math.round((equipSums.CH) * (1+clubbonus))*2;
-			part4 = Math.floor((lvlBasedKH + boughtStatKH + equipSums.KH)* boostGinseng)*5 + Math.round((lvlBasedCH + boughtStatCH + equipSums.CH)* boostGinseng)*2;
+			part3 = Math.round((equipSums.KH) * (1+clubbonus))*5 + Math.round((equipSums.CH) * (1+clubbonus))*2;
+			part4 = Math.round((lvlBasedKH + boughtStatKH + equipSums.KH)* boostGinseng)*5 + Math.round((lvlBasedCH + boughtStatCH + equipSums.CH)* boostGinseng)*2;
 		}
 		result = part1 + part2 + part3 + part4;
 
@@ -557,7 +550,7 @@ function simButtonClickAction (enButtonEvent) {
 		return result;
 	}
 
-	/* girls as objects as in Array set, equipment precalculated, haremBonus = server decision*/
+	// girls as objects as in Array set, equipment precalculated, haremBonus = server decision*/
 	function createPlayer(alphaGirl, betaGirl, omegaGirl, boostCordy, boostGinseng, equipSums, haremBonus){
 		let playerMarket; //was im Markt angezeigt wird, hängt an Klasse und Equipment
 		let endurance;
@@ -1080,7 +1073,7 @@ function simButtonClickAction (enButtonEvent) {
                 doHeh();
             } else {alert('Testtest');}
 
-	// decide if show or hide 
+	// decide if show or hide - comes with the obstacle of "no autorefresh on opponent change...
 	if (printTable==1) {
 		document.getElementById ("paragraph").innerHTML = entryTextArea.innerHTML;
 		printTable = 0;
@@ -1121,18 +1114,6 @@ function simButtonClickAction (enButtonEvent) {
     observer.observe(test, {attributes: false, childList: true, subtree: false});
 }
 
-var a = 1;
-
-function change(){
- if (a==1) {
-   document.getElementById("paragraph").innerHTML = "Linuxhint is awesome"
-   a = 0;
- } else {
-   document.getElementById("paragraph").innerHTML = "Linuxhint"
-   a = 1;
- }
-}
-
 sheet.insertRule('#simBtnContainer {'
                      + 'display: block;'
                      + 'position: absolute;'
@@ -1149,26 +1130,11 @@ sheet.insertRule('#simBtnContainer {'
                      + 'background:#9c323f;'
                      );
 
-sheet.insertRule('#linBtnCont {'
-                     + 'display: block;'
-                     + 'position: absolute;'
-                     + 'left: 20px;'
-                     + 'top: 200px;'
-                     + 'z-index: 15;'
-                     + 'margin: 2px;'
-                     + 'padding: 2px 2px;'
-                     + 'font-size: 20px;'
-                     + 'font-weight: 400;'
-                     + 'letter-spacing: .22px;'
-                     + 'text-align: left !important;'
-                     + 'color: #000000;'
-                     + 'background:#9c323f;'
-                     );
 sheet.insertRule('#simTableContainer {'
                      + 'display: block;'
                      + 'position: absolute;'
                      + 'left: 20px;'
-                     + 'top: 250px;'
+                     + 'top: 200px;'
                      + 'z-index: 15;'
                      + 'margin: 2px;'
                      + 'padding: 2px 2px;'
