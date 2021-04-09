@@ -1,0 +1,7 @@
+I have no clue what I do - just others do. So I thought I share some links I still remember that these helped me to understand
+
+
+
+GUI
+- use insertRule to extract style information as CSS: https://www.mediaevent.de/javascript/insert-remove-rule.html
+- collapsible table: https://www.w3schools.com/howto/howto_js_collapsible.asp
