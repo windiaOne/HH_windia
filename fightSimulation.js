@@ -17,8 +17,25 @@ document.getElementById ("simulationButton").addEventListener (
 );
 
 function ButtonClickAction (enButtonEvent) {
-    //a line of text to the screen.
-    let entryNodeButton       = document.createElement ('p');
+    //first the official variables, later the self made ones 
+	var playerEgo;
+    var playerEgoCheck;
+    var playerDefHC;
+    var playerDefKH;
+    var playerDefCH;
+    var playerAtk;
+    var playerDef;
+    var playerClass;
+    var playerAlpha;
+    var playerBeta;
+    var playerOmega;
+    var playerExcitement;
+    var playerAlphaAdd;
+    var playerBetaAdd;
+    var playerOmegaAdd;
+    var playerOrgasm;
+    var playerOrgasmCount;
+
     var opponentEgo;
     var opponentDefHC;
     var opponentDefHCStr;
@@ -40,23 +57,17 @@ function ButtonClickAction (enButtonEvent) {
     var opponentOrgasm;
     var opponentOrgasmCount;
 
-    var playerEgo;
-    var playerEgoCheck;
-    var playerDefHC;
-    var playerDefKH;
-    var playerDefCH;
-    var playerAtk;
-    var playerDef;
-    var playerClass;
-    var playerAlpha;
-    var playerBeta;
-    var playerOmega;
-    var playerExcitement;
-    var playerAlphaAdd;
-    var playerBetaAdd;
-    var playerOmegaAdd;
-    var playerOrgasm;
-    var playerOrgasmCount;
+    var matchRating;
+	
+	//a line of text to the screen.
+    let entryNodeButton       = document.createElement ('p');
+	
+
+
+
+
+
+
     let simuresult;
 
         playerClass = $('#leagues_left .icon').attr('carac');
