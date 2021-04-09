@@ -1,20 +1,3 @@
-/*--- Create a button in a container div.  It will be styled and positioned with CSS.
-*/
-let entryNodeButton       = document.createElement ('div');
-entryNodeButton.innerHTML = '<button id="simulationButton" type="button">'
-                + 'Simulate fight!</button>'
-                ;
-entryNodeButton.setAttribute ('id', 'simBtnContainer');
-//zeigt an, welche Seite geladen sein muss, damit das div dazukommt
-if (window.location.pathname == '/tower-of-fame.html'){
-    document.body.appendChild (entryNodeButton);
-}
-
-//--- Activate the newly added button.
-document.getElementById ("simulationButton").addEventListener (
-    "click", ButtonClickAction, false
-);
-
 function ButtonClickAction (enButtonEvent) {
     //first the official variables, later the self made ones
 	var playerEgo;
@@ -78,7 +61,7 @@ function ButtonClickAction (enButtonEvent) {
 	let opponent;
 	let opponentTeam;
     let girls;
-	let alphaGirl;
+    let alphaGirl;
     let betaGirl;
     let omegaGirl;
 	let girlsCombinations = 3; //step 0: setup the combinations to look for
@@ -353,7 +336,10 @@ function ButtonClickAction (enButtonEvent) {
 
 	// needs 6 equipments, delivered in the form of their setup as 6 objects
 	function calculateEquipSums(equipLT, equipLM, equipLB, equipRT, equipRM, equipRB){
+        console.log('calcEquips aufgerufen');
+        console.log('equipLT.HC: ' + equipLT.HC);
 		let result;
+        result = new Object();
 		result.HC = equipLT.HC + equipLM.HC + equipLB.HC + equipRT.HC + equipRM.HC + equipRB.HC;
 		result.CH = equipLT.CH + equipLM.CH + equipLB.CH + equipRT.CH + equipRM.CH + equipRB.CH;
 		result.KH = equipLT.KH + equipLM.KH + equipLB.KH + equipRT.KH + equipRM.KH + equipRB.KH;
@@ -367,6 +353,7 @@ function ButtonClickAction (enButtonEvent) {
 	function calculatePlayerMarket(equipSums, boostGinseng){
 	//boostFix wäre vor dem Runden drauf zu rechnen, nutze ich jetzt nicht
 		let result;
+        result = new Object();
 
 		if (playerClass == ('class' + HC)) {
 			result.player1stStat = Math.round((lvlBasedHC + boughtStatHC + equipSums.HC) * (1+ clubbonus + boostGinseng));
@@ -594,19 +581,20 @@ function ButtonClickAction (enButtonEvent) {
 		return this;
 	}
 
-    function setPlayerAndFight(girlsCombinations){
+    function setPlayerAndFight(girlsCombinations, haremBonus){
+        console.log('einstieg setPlayerAndFight');
 		// for each girl setup iterate through equipments to set all 6
 		for (jequip=0; jequip<equips.length; jequip++){
-			// reset equipSums just in case
+            // reset equipSums just in case
 			equipSums = 0;
 			// and iterate through equipment each time
 			equipLT = equips[jequip];
-			equipLM = equips[jequip+1 % equips.length];
-			equipLB = equips[jequip+2 % equips.length];
-			equipRT = equips[jequip+3 % equips.length];
-			equipRM = equips[jequip+4 % equips.length];
-			equipRB = equips[jequip+5 % equips.length];
-			equipSums = calculateEquipSums(equipLT, equipLM, equipLB, equipRT, equipRM, equipRB);
+			equipLM = equips[(jequip+1) % equips.length];
+			equipLB = equips[(jequip+2) % equips.length];
+			equipRT = equips[(jequip+3) % equips.length];
+			equipRM = equips[(jequip+4) % equips.length];
+			equipRB = equips[(jequip+5) % equips.length];
+            equipSums = calculateEquipSums(equipLT, equipLM, equipLB, equipRT, equipRM, equipRB);
 
             //apply booster
 			boostGinseng = 0.12 // 0.06 for each ginseng
@@ -631,29 +619,33 @@ function ButtonClickAction (enButtonEvent) {
     function doNutaku(){
         girls = setGirlsNutaku();
         equips = setEquimentNutaku();
+        girlsCombinations = 3;
         resultArray = initResultArray2(girlsCombinations, equips.length);
-        opponent = createOpponent();
 
         // iterate through girls to set alpha, beta, omega
 		girlsCombinations = 0; //reuse as counter - might be bad style^^
 		alphaGirl = girls[0]; //Alexa
-		betaGirl = girls[1]; //Any
+        betaGirl = girls[1]; //Any
 		omegaGirl = girls[2]; // Harmonia
-		setPlayerAndFight(girlsCombinations);
+		console.log('doNutaku girls' + alphaGirl.Name + betaGirl.Name + omegaGirl.Name);
+		setPlayerAndFight(girlsCombinations,haremBonusNutaku);
 
 		girlsCombinations = 1; //reuse as counter - might be bad style^^
 		alphaGirl = girls[1];
 		betaGirl = girls[0];
 		omegaGirl = girls[2];
-		setPlayerAndFight(girlsCombinations);
+		console.log('doNutaku girls' + alphaGirl.Name + betaGirl.Name + omegaGirl.Name);
+		setPlayerAndFight(girlsCombinations, haremBonusNutaku);
 
 		girlsCombinations = 2; //reuse as counter - might be bad style^^
 		alphaGirl = girls[2];
 		betaGirl = girls[0];
 		omegaGirl = girls[1];
-		setPlayerAndFight(girlsCombinations);
+		console.log('doNutaku girls' + alphaGirl.Name + betaGirl.Name + omegaGirl.Name);
+		setPlayerAndFight(girlsCombinations, haremBonusNutaku);
 
         tableTemp = '<table>';
+        tableTemp = tableTemp + '<tr><td>6Mu0Mo</td><td>5Mu1Mo</td><td>4Mu2Mo</td><td>3Mu3Mo</td><td>2Mu4Mo</td><td>1Mu5Mo</td><td>0Mu6Mo</td><td>1Mu5Mo</td><td>2Mu4Mo</td><td>3Mu3Mo</td><td>4Mu2Mo</td><td>5Mu1Mo</td></tr>';
         for(i=0; i<(girlsCombinations+1); i++){
             tableTemp = tableTemp + '<tr>';
             for (j=0; j<equips.length;j++){
@@ -664,10 +656,6 @@ function ButtonClickAction (enButtonEvent) {
         tableTemp = tableTemp + '</table>';
         entryTextArea.innerHTML = tableTemp;
     }
-
-
-
-
 
     //let myalpha = JSON.parse($('#leagues_left .girls_wrapper .team_girl[g=1]').attr('new-girl-tooltip-data'));
     //Hero.infos.id == 123 && window.location.hostname == "www.hentaiheroes.com"
@@ -694,7 +682,10 @@ function ButtonClickAction (enButtonEvent) {
     tablei = tablei + '</table>';
     entryTextArea.innerHTML = tablei;
 
+    createOpponent();
+
     if (Hero.infos.id == 1375928) {
+                console.log('einstieg doNutaku kommt');
                 doNutaku();
             } else if (Hero.infos.id == 959708) {
                 alert('HeH');
@@ -704,19 +695,3 @@ function ButtonClickAction (enButtonEvent) {
 
 
 }
-
-sheet.insertRule('#simBtnContainer {'
-                     + 'display: block;'
-                     + 'position: absolute;'
-                     + 'left: 20px;'
-                     + 'top: 150px;'
-                     + 'z-index: 15;'
-                     + 'margin: 2px;'
-                     + 'padding: 2px 2px;'
-                     + 'font-size: 20px;'
-                     + 'font-weight: 400;'
-                     + 'letter-spacing: .22px;'
-                     + 'text-align: left !important;'
-                     + 'color: #ffffff;'
-                     + 'background:#cc0033;'
-                     );
