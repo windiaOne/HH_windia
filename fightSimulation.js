@@ -1,57 +1,37 @@
 /*--- Create a button in a container div.  It will be styled and positioned with CSS.
 */
 
-/*let linuxtest = document.createElement('p');
-document.innerHTML = '<p id="paragraph">Linuxhint</p>';
-
-let linuxbutton = document.createElement('div');
-document.innerHTML = '<button id="linuxbut" onclick="change()">Change!</button>';
-
-var a = 1;
-
-function change(){
- if (a==1) {
-   document.getElementById("paragraph").innerHTML = "Linuxhint is awesome"
-   a = 0;
- } else {
-   document.getElementById("paragraph").innerHTML = "Linuxhint"
-   a = 1;
- }
-}*/
-
-
-let entryNodeButton       = document.createElement ('div');
-entryNodeButton.innerHTML = '<button id="simulationButton" type="button">'
-                + 'Simulate fight!</button>'
-                ;
-entryNodeButton.setAttribute ('id', 'simBtnContainer');
+let simulationButtonNode       = document.createElement ('div');
+simulationButtonNode.innerHTML = '<button id="simulationButton" type="button">Simulate fight!</button>';
+simulationButtonNode.setAttribute ('id', 'simBtnContainer');
 
 let linuxbutton = document.createElement('div');
 linuxbutton.innerHTML = '<button id="linuxbut" type="button">Change!</button>';
 linuxbutton.setAttribute('id', 'linBtnCont');
 
-let linuxtext = document.createElement('div');
-linuxtext.innerHTML = '<p id="paragraph">Linuxhint</p>';
-linuxtext.setAttribute('id', 'linTextCont');
+let simulationTable = document.createElement('div');
+simulationTable.innerHTML = '<p id="paragraph">Linuxhint</p>';
+simulationTable.setAttribute('id', 'simTableContainer');
 
 
 //zeigt an, welche Seite geladen sein muss, damit das div dazukommt
 if (window.location.pathname == '/tower-of-fame.html'){
-    document.body.appendChild (entryNodeButton);
+    document.body.appendChild (simulationButtonNode);
     document.body.appendChild(linuxbutton);
-    document.body.appendChild(linuxtext);
+    document.body.appendChild(simulationTable);
 }
 
 //--- Activate the newly added button.
 document.getElementById ("simulationButton").addEventListener (
-    "click", ButtonClickAction, false
+    "click", simButtonClickAction, false
 );
 document.getElementById("linuxbut").addEventListener(
 	"click", change, false
 	);
 
+let printTable = 1; // global variable to switch between printed and hidden simulation table -> 1 = print 
 
-function ButtonClickAction (enButtonEvent) {
+function simButtonClickAction (enButtonEvent) {
     //first the official variables, later the self made ones
 	var playerEgo;
     var playerEgoCheck;
@@ -1100,7 +1080,14 @@ function ButtonClickAction (enButtonEvent) {
                 doHeh();
             } else {alert('Testtest');}
 
-    document.getElementById ("simBtnContainer").appendChild(entryTextArea);
+	// decide if show or hide 
+	if (printTable==1) {
+		document.getElementById ("paragraph").innerHTML = entryTextArea.innerHTML;
+		printTable = 0;
+	} else {
+		document.getElementById("paragraph").innerHTML = leer;
+		printTable = 1;
+	}
 
     // Refresh sim on new opponent selection (Credit: BenBrazke)
     var opntName;
@@ -1177,7 +1164,7 @@ sheet.insertRule('#linBtnCont {'
                      + 'color: #000000;'
                      + 'background:#9c323f;'
                      );
-sheet.insertRule('#linTextCont {'
+sheet.insertRule('#simTableContainer {'
                      + 'display: block;'
                      + 'position: absolute;'
                      + 'left: 20px;'
