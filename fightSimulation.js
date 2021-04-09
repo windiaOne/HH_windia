@@ -60,8 +60,20 @@ function ButtonClickAction (enButtonEvent) {
     var matchRating;
 	
 	//a line of text to the screen.
-    let entryNodeButton       = document.createElement ('p');
-	
+    let entryTextArea       = document.createElement ('p');
+	let idNutaku;
+	let idHeh;
+	let idTestHeh;
+	let lvlBasedHC;
+    let lvlBasedCH;
+    let lvlBasedKH;
+	let boughtStatHC;
+	let boughtStatCH;
+	let boughtStatKH;
+	let haremBonusNutaku;
+	let haremBonusHeh;
+	let haremBonusTestHeh;
+ 	let clubbonus = 0.1; //currently everything is maxed and gives 10 % on hc, ch, kh, endur, harmony etc.
 
 
 
@@ -181,8 +193,8 @@ function ButtonClickAction (enButtonEvent) {
     let leer = ' ';
     let myalpha = JSON.parse($('#leagues_left .girls_wrapper .team_girl[g=1]').attr('new-girl-tooltip-data'));
     //Hero.infos.id == 209261 && window.location.hostname == "www.hentaiheroes.com"
-    entryNodeButton.innerHTML =	leer;
-    entryNodeButton.innerHTML =	 '<table>'
+    entryTextArea.innerHTML =	leer;
+    entryTextArea.innerHTML =	 '<table>'
 		+ '<tr><td>playerEgo' +'</td><td>'+playerEgo+'</td><td>'+leer+'</td><td>opponentEgo'+'</td><td>'+opponentEgo+'</td></tr>'
 		+ '<tr><td>playerEgoCheck' +'</td><td>'+playerEgoCheck+'</td><td>'+leer+'</td><td>'+leer+'</td><td>'+leer+'</td></tr>'
 		+ '<tr><td>playerDefHC' +'</td><td>'+playerDefHC+'</td><td>'+leer+'</td><td>opponentDefHC'+'</td><td>'+opponentDefHC+'</td></tr>'
@@ -201,7 +213,7 @@ function ButtonClickAction (enButtonEvent) {
 		+ '<tr><td>points' +'</td><td>'+simuresult.points+'</td><td>'+leer+'</td><td>opponentOmegaAdd'+'</td><td>'+opponentOmegaAdd+'</td></tr>'
 		+ '<tr><td>hero: ' +'</td><td>'+ Hero.infos.id +'</td><td>'+leer+'</td><td>gebaut '+ 'class'+ CH + '</td><td>'+$('#leagues_right .player_block .title').text()+'</td></tr>'
 		+ '</table>'    ;
-    document.getElementById ("simBtnContainer").appendChild(entryNodeButton);
+    document.getElementById ("simBtnContainer").appendChild(entryTextArea);
 
 
 }
