@@ -5,12 +5,13 @@ let simulationButtonNode       = document.createElement ('div');
 simulationButtonNode.innerHTML = '<button id="simulationButton" type="button">Simulate fight!</button>';
 simulationButtonNode.setAttribute ('id', 'simBtnContainer');
 
+// create an "appendix"to the button, controlled by it and styled with CSS
 let simulationTable = document.createElement('div');
 simulationTable.innerHTML = '<p id="paragraph">go sim!</p>';
 simulationTable.setAttribute('id', 'simTableContainer');
 
 
-//zeigt an, welche Seite geladen sein muss, damit das div dazukommt
+// show the button and text area only on league site - well, no ommiting when opening user profiles from there...
 if (window.location.pathname == '/tower-of-fame.html'){
     document.body.appendChild (simulationButtonNode);
     document.body.appendChild(simulationTable);
@@ -67,8 +68,8 @@ function simButtonClickAction (enButtonEvent) {
 
     var matchRating;
 
-	// new "global" variables that work either independent from server or avoid using them as function value
-	let entryTextArea = document.createElement ('p'); //a line of text to the screen.
+	// new variables that work either independent from server or avoid using them as function value
+	let entryTextArea = document.createElement ('p'); //a line of text to the screen. (might be reworked since separate text area got in use
 	let idNutaku; // identify yourself to use correct girl & equipment for simulation
 	let idHeh;
 	let idTestHeh;
@@ -85,36 +86,36 @@ function simButtonClickAction (enButtonEvent) {
 	let boughtStatCH;
 	let boughtStatKH;
 	let clubbonus; //currently everything is maxed and gives 10 % on hc, ch, kh, endur, harmony etc.
-	let simuresult;
+	let simuresult; //to access the simulation results outside the calculation
 	let leer = ' ';
-	let opponent;
-	let opponentTeam;
+	let opponent; //is a local variable in the original function
+	let opponentTeam;  //is a local variable in the original function
     let girls;
     let alphaGirl;
     let betaGirl;
     let omegaGirl;
-	let alphaRow;
+	let alphaRow; //indicates the row the to be printed alpha is located in
 	let alphaRows;//step 0: setup the combinations to look for
 	let equips;
 	let equipSums;
-	let tobefound // eine Nummer, die beschreibt, wie viel Equipment kombiniert werden soll
-	let equipLT; //per se muss jede Position gefüllt werden
-	let equipLM; // Step 0: nur eine Nummer, keine echte Position
+	let tobefound // not yet in use, for rebuild of complete equipment possibilities
+	let equipLT; //each equipment position needs to be set
+	let equipLM; // Step 0: just a number, no check on position -> fixed loop through equipment
 	let equipLB;
 	let equipRT;
 	let equipRM;
 	let equipRB;
-	let boostGinseng;
-	let boostCordy;
-	let resultArray; //init result array sets 1st<=2nd<=3rd...
+	let boostGinseng; // luck is no part of "worst case simulation"
+	let boostCordy; // so only these two legendary boosters are considered
+	let resultArray; //init result array sets 1st<=2nd<=3rd dimensions due to JavaScript
 	let resultValue; //take the current simulation result
     let tableTemp; // to build up innerHTML step by step
 
 
-	// setting global variables
-	idNutaku = 	1375928;
-	idHeh = 959708;
-	idTestHeh = 2110;
+	// setting function wide variables
+	idNutaku = 	123123;
+	idHeh = 456456;
+	idTestHeh = 789789;
     playerName = $('#leagues_left .player_block .title').text();
 	//take directly from harem's overview - needs to be refreshed any time a girl is seducted or upgraded/upleveled
 	haremBonusNutaku = 20196;
@@ -155,99 +156,99 @@ function simButtonClickAction (enButtonEvent) {
 		//first 6 multi, then 6 mono
 		let equipment = new Array();
 		equipment[0] = new Object();
-		equipment[0]['Position'] = 'RB'; //rechtsunten
-		equipment[0]['HC'] = 3199;
-		equipment[0]['CH'] = 3199;
-		equipment[0]['KH'] = 3243;
-		equipment[0]['luck'] = 4242;
-		equipment[0]['endur'] = 2961;
+		equipment[0]['Position'] = 'RT'; //rechtsoben
+		equipment[0]['HC'] = 3172;
+		equipment[0]['CH'] = 3238;
+		equipment[0]['KH'] = 3262;
+		equipment[0]['luck'] = 4244;
+		equipment[0]['endur'] = 3166;
 
-		equipment[1] = new Object();
-		equipment[1]['Position'] = 'LT'; //linksoben
-		equipment[1]['HC'] = 3100;
-		equipment[1]['CH'] = 3260;
-		equipment[1]['KH'] = 3242;
-		equipment[1]['luck'] = 4242;
-		equipment[1]['endur'] = 3024;
+        equipment[1] = new Object();
+		equipment[1]['Position'] = 'LB'; //linksunten
+		equipment[1]['HC'] = 3250;
+		equipment[1]['CH'] = 3214;
+		equipment[1]['KH'] = 3221;
+		equipment[1]['luck'] = 4244;
+		equipment[1]['endur'] = 3066;
 
-		equipment[2] = new Object();
-		equipment[2]['Position'] = 'LM';//linksmitte
-		equipment[2]['HC'] = 3167;
-		equipment[2]['CH'] = 3256;
-		equipment[2]['KH'] = 3238;
-		equipment[2]['luck'] = 4242;
-		equipment[2]['endur'] = 2959;
+        equipment[2] = new Object();
+		equipment[2]['Position'] = 'RM'; //rechtsmitte
+		equipment[2]['HC'] = 3254;
+		equipment[2]['CH'] = 3247;
+		equipment[2]['KH'] = 3236;
+		equipment[2]['luck'] = 4243;
+		equipment[2]['endur'] = 3089;
 
-		equipment[3] = new Object();
-		equipment[3]['Position'] = 'LB'; //linksunten
-		equipment[3]['HC'] = 3250;
-		equipment[3]['CH'] = 3214;
-		equipment[3]['KH'] = 3221;
-		equipment[3]['luck'] = 4244;
-		equipment[3]['endur'] = 3066;
+        equipment[3] = new Object();
+		equipment[3]['Position'] = 'LT'; //linksoben
+		equipment[3]['HC'] = 3121;
+		equipment[3]['CH'] = 3277;
+		equipment[3]['KH'] = 3062;
+		equipment[3]['luck'] = 4263;
+		equipment[3]['endur'] = 3204;
 
-		equipment[4] = new Object();
-		equipment[4]['Position'] = 'RM'; //rechtsmitte
-		equipment[4]['HC'] = 3254;
-		equipment[4]['CH'] = 3247;
-		equipment[4]['KH'] = 3236;
-		equipment[4]['luck'] = 4243;
-		equipment[4]['endur'] = 3089;
+        equipment[4] = new Object();
+		equipment[4]['Position'] = 'RB'; //rechtsunten
+		equipment[4]['HC'] = 3199;
+		equipment[4]['CH'] = 3199;
+		equipment[4]['KH'] = 3243;
+		equipment[4]['luck'] = 4242;
+		equipment[4]['endur'] = 2961;
 
 		equipment[5] = new Object();
-		equipment[5]['Position'] = 'RT'; //rechtsoben
-		equipment[5]['HC'] = 3172;
-		equipment[5]['CH'] = 3238;
-		equipment[5]['KH'] = 3262;
-		equipment[5]['luck'] = 4244;
-		equipment[5]['endur'] = 3166;
+		equipment[5]['Position'] = 'LM';//linksmitte
+		equipment[5]['HC'] = 3167;
+		equipment[5]['CH'] = 3256;
+		equipment[5]['KH'] = 3238;
+		equipment[5]['luck'] = 4242;
+		equipment[5]['endur'] = 2959;
 
 		//now 6 mono
 		equipment[6] = new Object();
-		equipment[6]['Position'] = 'RB'; //rechtsunten
+		equipment[6]['Position'] = 'RT'; //rechtsoben
 		equipment[6]['HC'] = 0;
-		equipment[6]['CH'] = 0;
-		equipment[6]['KH'] = 5187;
+		equipment[6]['CH'] = 5216;
+		equipment[6]['KH'] = 0;
 		equipment[6]['luck'] = 0;
 		equipment[6]['endur'] = 0;
 
-		equipment[7] = new Object();
-		equipment[7]['Position'] = 'LT'; //linksoben
+        equipment[7] = new Object();
+		equipment[7]['Position'] = 'LB'; //linksunten
 		equipment[7]['HC'] = 0;
-		equipment[7]['CH'] = 0;
-		equipment[7]['KH'] = 5185;
+		equipment[7]['CH'] = 5184;
+		equipment[7]['KH'] = 0;
 		equipment[7]['luck'] = 0;
 		equipment[7]['endur'] = 0;
 
-		equipment[8] = new Object();
-		equipment[8]['Position'] = 'LM';//linksmitte
+        equipment[8] = new Object();
+		equipment[8]['Position'] = 'RM'; //rechtsmitte
 		equipment[8]['HC'] = 0;
-		equipment[8]['CH'] = 0;
-		equipment[8]['KH'] = 5165;
+		equipment[8]['CH'] = 5203;
+		equipment[8]['KH'] = 0;
 		equipment[8]['luck'] = 0;
 		equipment[8]['endur'] = 0;
 
-		equipment[9] = new Object();
-		equipment[9]['Position'] = 'LB'; //linksunten
+        equipment[9] = new Object();
+		equipment[9]['Position'] = 'LT'; //linksoben
 		equipment[9]['HC'] = 0;
-		equipment[9]['CH'] = 0;
-		equipment[9]['KH'] = 5143;
+		equipment[9]['CH'] = 5227;
+		equipment[9]['KH'] = 0;
 		equipment[9]['luck'] = 0;
 		equipment[9]['endur'] = 0;
 
-		equipment[10] = new Object();
-		equipment[10]['Position'] = 'RM'; //rechtsmitte
+        equipment[10] = new Object();
+		equipment[10]['Position'] = 'RB'; //rechtsunten
 		equipment[10]['HC'] = 0;
-		equipment[10]['CH'] = 0;
-		equipment[10]['KH'] = 5151;
+		equipment[10]['CH'] = 5137;
+		equipment[10]['KH'] = 0;
 		equipment[10]['luck'] = 0;
 		equipment[10]['endur'] = 0;
 
 		equipment[11] = new Object();
-		equipment[11]['Position'] = 'RT'; //rechtsoben
+		equipment[11]['Position'] = 'LM';//linksmitte
 		equipment[11]['HC'] = 0;
-		equipment[11]['CH'] = 0;
-		equipment[11]['KH'] = 5116;
+		equipment[11]['CH'] = 5069;
+		equipment[11]['KH'] = 0;
 		equipment[11]['luck'] = 0;
 		equipment[11]['endur'] = 0;
 
@@ -257,6 +258,7 @@ function simButtonClickAction (enButtonEvent) {
 	//assumption: all used girls are upgraded and leveled to their max
 	function setGirlsNutaku(){
 		let girls = new Array();
+        /* last KH setup
 		girls[0] = new Object();
 		girls[0].name = 'Alexa';
 		girls[0]['HC'] = 6.16*Hero.infos.level;
@@ -273,9 +275,57 @@ function simButtonClickAction (enButtonEvent) {
 		girls[2].name = 'Harmonia';
 		girls[2].HC = 3.75*Hero.infos.level;
 		girls[2].CH = 7.5*Hero.infos.level;
-		girls[2].KH = 13.25*Hero.infos.level;
+		girls[2].KH = 13.25*Hero.infos.level;*/
 
-		return girls;
+        girls[0] = new Object();
+		girls[0].name = 'Moe Bunny';
+		girls[0]['HC'] = 5.6*Hero.infos.level;
+		girls[0]['CH'] = 15.12*Hero.infos.level;
+		girls[0]['KH'] = 7.84*Hero.infos.level;
+
+		girls[1] = new Object();
+		girls[1].name = 'Shtupra';
+		girls[1].HC = 3.25*Hero.infos.level;
+		girls[1].CH = 13.5*Hero.infos.level;
+		girls[1].KH = 7.0*Hero.infos.level;
+
+		girls[2] = new Object();
+		girls[2].name = 'Fanny&Fione';
+		girls[2].HC = 6*Hero.infos.level;
+		girls[2].CH = 13.0*Hero.infos.level;
+		girls[2].KH = 4.75*Hero.infos.level;
+
+        girls[3] = new Object();
+		girls[3].name = 'Himari';
+		girls[3].HC = 5.5*Hero.infos.level;
+		girls[3].CH = 13.5*Hero.infos.level;
+		girls[3].KH = 5.75*Hero.infos.level;
+
+        girls[4] = new Object();
+		girls[4].name = 'Layla';
+		girls[4].HC = 6.5*Hero.infos.level;
+		girls[4].CH = 13.25*Hero.infos.level;
+		girls[4].KH = 4.5*Hero.infos.level;
+
+        girls[5] = new Object();
+		girls[5].name = 'Sai';
+		girls[5].HC = 6.0*Hero.infos.level;
+		girls[5].CH = 13.25*Hero.infos.level;
+		girls[5].KH = 5.0*Hero.infos.level;
+
+        girls[6] = new Object();
+		girls[6].name = 'Taria';
+		girls[6].HC = 3.5*Hero.infos.level;
+		girls[6].CH = 13.25*Hero.infos.level;
+		girls[6].KH = 7.0*Hero.infos.level;
+
+        girls[7] = new Object();
+		girls[7].name = 'Vespa';
+		girls[7].HC = 5.0*Hero.infos.level;
+		girls[7].CH = 13.5*Hero.infos.level;
+		girls[7].KH = 6.5*Hero.infos.level;
+
+        return girls;
 	}
 	// each server needs equipment and girls to be setup
 		function setEquimentHeh(){
@@ -745,7 +795,7 @@ function simButtonClickAction (enButtonEvent) {
 	}
 
     function setPlayerAndFight(alphaRow, haremBonus, boostCordy, boostGinseng){
-        console.log('einstieg setPlayerAndFight');
+        //console.log('setPlayerAndFight' + alphaRow);
 		// for each girl setup iterate through equipments to set all 6
 		for (jequip=0; jequip<equips.length; jequip++){
             // reset equipSums just in case
@@ -758,10 +808,6 @@ function simButtonClickAction (enButtonEvent) {
 			equipRM = equips[(jequip+4) % equips.length];
 			equipRB = equips[(jequip+5) % equips.length];
             equipSums = calculateEquipSums(equipLT, equipLM, equipLB, equipRT, equipRM, equipRB);
-
-            //apply booster
-			//boostGinseng = 0.12 // 0.06 for each ginseng
-			//boostCordy = 0.2 // 0.1 for each cordy
 
             let currentPlayer;
 
@@ -784,8 +830,9 @@ function simButtonClickAction (enButtonEvent) {
 
 	// girls array to get name which correlates with row number aka alphaRows
     function createTable(girls, alphaRows, boostCordy, boostGinseng){
-		//Hero.infos.level
+		console.log('createTable, max: '+alphaRows);
         //reduced to 7 setups from 6 Multi to 6 Mono
+        let equipResults = 7;
         let result;
         let cordy = boostCordy * 10;
         let ginseng = boostGinseng * 100 / 6;
@@ -794,7 +841,7 @@ function simButtonClickAction (enButtonEvent) {
         result = result + '<th>' + ginseng + 'Gin, ' + cordy + 'Cord</th><th>6Mu 0Mo</th><th>5Mu 1Mo</th><th>4Mu 2Mo</th><th>3Mu 3Mo</th><th>2Mu 4Mo</th><th>1Mu 5Mo</th><th>0Mu 6Mo</th>';
         for(i=0; i<(alphaRows); i++){
             result = result + '<tr><td>' + girls[i].name + '</td>';
-            for (j=0; j<7;j++){
+            for (j=0; j<equipResults;j++){
                 result = result + '<td>' + resultArray.result[i][j] + '</td>';
             }
             result = result + '</tr>';
@@ -806,32 +853,68 @@ function simButtonClickAction (enButtonEvent) {
     function doNutaku(){
         girls = setGirlsNutaku();
         equips = setEquimentNutaku();
-        alphaRows = 3;
+        alphaRows = 8; //needs to be highest used alphaRow + 1
         let alphaTable = new Array(alphaRows);
-        boostCordy = 0.2; //default setup of 2 & 2
-		boostGinseng = 0.12; //default setup of 2 & 2
+        boostCordy = 0.2; // setup of 2 & 2
+		boostGinseng = 0.12; // setup of 2 & 2
 		resultArray = initResultArray2(alphaRows, equips.length);
 
         // iterate through girls to set alpha, beta, omega
 		alphaRow = 0; //counter
-		alphaGirl = girls[0]; //Alexa
-        alphaTable[alphaRow] = girls[0];
-		betaGirl = girls[1]; //Any
-		omegaGirl = girls[2]; // Harmonia
+		alphaGirl = girls[0]; //Moe Bunny
+        alphaTable[alphaRow] = alphaGirl;
+		betaGirl = girls[1]; //Shtupra
+		omegaGirl = girls[7]; // Vespa
+        console.log('doNutaku, row '+alphaRow+', girl '+alphaGirl.name);
 		setPlayerAndFight(alphaRow,haremBonusNutaku, boostCordy, boostGinseng);
 
-		alphaRow = 1; // counter
-		alphaGirl = girls[1];
-		alphaTable[alphaRow] = girls[1];
-		betaGirl = girls[0];
-		omegaGirl = girls[2];
+		alphaRow = 1; // counter - maybe better as calculated increment?
+		alphaGirl = girls[1]; //Shtupra
+		alphaTable[alphaRow] = alphaGirl;
+		betaGirl = girls[0]; // Moe Bunny
+		omegaGirl = girls[7];
 		setPlayerAndFight(alphaRow, haremBonusNutaku, boostCordy, boostGinseng);
 
 		alphaRow = 2; //counter
-		alphaGirl = girls[2];
-		alphaTable[alphaRow] = girls[2];
+		alphaGirl = girls[2]; // Fanny&Fione
+		alphaTable[alphaRow] = alphaGirl;
 		betaGirl = girls[0];
-		omegaGirl = girls[1];
+		omegaGirl = girls[7];
+		setPlayerAndFight(alphaRow, haremBonusNutaku, boostCordy, boostGinseng);
+
+        alphaRow = 3; //counter
+		alphaGirl = girls[3]; // Himari
+		alphaTable[alphaRow] = alphaGirl;
+		betaGirl = girls[0];
+		omegaGirl = girls[7];
+		setPlayerAndFight(alphaRow, haremBonusNutaku, boostCordy, boostGinseng);
+
+        alphaRow = 4; //counter
+		alphaGirl = girls[4]; // Layla
+		alphaTable[alphaRow] = alphaGirl;
+		betaGirl = girls[0];
+		omegaGirl = girls[7];
+		setPlayerAndFight(alphaRow, haremBonusNutaku, boostCordy, boostGinseng);
+
+        alphaRow = 5; //counter
+		alphaGirl = girls[5]; // Sai
+		alphaTable[alphaRow] = alphaGirl;
+		betaGirl = girls[0];
+		omegaGirl = girls[7];
+		setPlayerAndFight(alphaRow, haremBonusNutaku, boostCordy, boostGinseng);
+
+        alphaRow = 6; //counter
+		alphaGirl = girls[6]; // Taria
+		alphaTable[alphaRow] = alphaGirl;
+		betaGirl = girls[0];
+		omegaGirl = girls[7];
+		setPlayerAndFight(alphaRow, haremBonusNutaku, boostCordy, boostGinseng);
+
+        alphaRow = 7; //counter
+		alphaGirl = girls[7]; // Vespa
+		alphaTable[alphaRow] = alphaGirl;
+		betaGirl = girls[0];
+		omegaGirl = girls[1]; //Shtupra
 		setPlayerAndFight(alphaRow, haremBonusNutaku, boostCordy, boostGinseng);
 
         //first setup calculated and print ready - add meta data
@@ -843,28 +926,28 @@ function simButtonClickAction (enButtonEvent) {
         tableTemp = tableTemp + createTable(alphaTable, alphaRows, boostCordy, boostGinseng);
 
         // different booster setup
-        boostCordy = 0.1; //default setup of 2 & 2
-		boostGinseng = 0.18; //default setup of 2 & 2
+        boostCordy = 0.1; //
+		boostGinseng = 0.18; //
 		resultArray = initResultArray2(alphaRows, equips.length); // just in case
 
         // iterate through girls to set alpha, beta, omega
 		alphaRow = 0; //counter
 		alphaGirl = girls[0]; //Alexa
-        alphaTable[alphaRow] = girls[0];
+        alphaTable[alphaRow] = alphaGirl;
 		betaGirl = girls[1]; //Any
 		omegaGirl = girls[2]; // Harmonia
 		setPlayerAndFight(alphaRow,haremBonusNutaku, boostCordy, boostGinseng);
 
 		alphaRow = 1; // counter
 		alphaGirl = girls[1];
-		alphaTable[alphaRow] = girls[1];
+		alphaTable[alphaRow] = alphaGirl;
 		betaGirl = girls[0];
 		omegaGirl = girls[2];
 		setPlayerAndFight(alphaRow, haremBonusNutaku, boostCordy, boostGinseng);
 
 		alphaRow = 2; //counter
 		alphaGirl = girls[2];
-		alphaTable[alphaRow] = girls[2];
+		alphaTable[alphaRow] = alphaGirl;
 		betaGirl = girls[0];
 		omegaGirl = girls[1];
 		setPlayerAndFight(alphaRow, haremBonusNutaku, boostCordy, boostGinseng);
@@ -872,56 +955,56 @@ function simButtonClickAction (enButtonEvent) {
         tableTemp = tableTemp + createTable(alphaTable, alphaRows, boostCordy, boostGinseng);
 
         // different booster setup
-        boostCordy = 0; //default setup of 2 & 2
-		boostGinseng = 0.24; //default setup of 2 & 2
+        boostCordy = 0; //
+		boostGinseng = 0.24; //
 		resultArray = initResultArray2(alphaRows, equips.length); // just in case
 
         // iterate through girls to set alpha, beta, omega
 		alphaRow = 0; //counter
 		alphaGirl = girls[0]; //Alexa
-        alphaTable[alphaRow] = girls[0];
+        alphaTable[alphaRow] = alphaGirl;
 		betaGirl = girls[1]; //Any
 		omegaGirl = girls[2]; // Harmonia
 		setPlayerAndFight(alphaRow,haremBonusNutaku, boostCordy, boostGinseng);
 
 		alphaRow = 1; // counter
 		alphaGirl = girls[1];
-		alphaTable[alphaRow] = girls[1];
+		alphaTable[alphaRow] = alphaGirl;
 		betaGirl = girls[0];
 		omegaGirl = girls[2];
 		setPlayerAndFight(alphaRow, haremBonusNutaku, boostCordy, boostGinseng);
 
 		alphaRow = 2; //counter
 		alphaGirl = girls[2];
-		alphaTable[alphaRow] = girls[2];
+		alphaTable[alphaRow] = alphaGirl;
 		betaGirl = girls[0];
 		omegaGirl = girls[1];
 		setPlayerAndFight(alphaRow, haremBonusNutaku, boostCordy, boostGinseng);
 
         tableTemp = tableTemp + createTable(alphaTable, alphaRows, boostCordy, boostGinseng);
         // different booster setup
-        boostCordy = 0.4; //default setup of 2 & 2
-		boostGinseng = 0.0; //default setup of 2 & 2
+        boostCordy = 0.4; //
+		boostGinseng = 0.0; //
 		resultArray = initResultArray2(alphaRows, equips.length); // just in case
 
         // iterate through girls to set alpha, beta, omega
 		alphaRow = 0; //counter
 		alphaGirl = girls[0]; //Alexa
-        alphaTable[alphaRow] = girls[0];
+        alphaTable[alphaRow] = alphaGirl;
 		betaGirl = girls[1]; //Any
 		omegaGirl = girls[2]; // Harmonia
 		setPlayerAndFight(alphaRow,haremBonusNutaku, boostCordy, boostGinseng);
 
 		alphaRow = 1; // counter
 		alphaGirl = girls[1];
-		alphaTable[alphaRow] = girls[1];
+		alphaTable[alphaRow] = alphaGirl;
 		betaGirl = girls[0];
 		omegaGirl = girls[2];
 		setPlayerAndFight(alphaRow, haremBonusNutaku, boostCordy, boostGinseng);
 
 		alphaRow = 2; //counter
 		alphaGirl = girls[2];
-		alphaTable[alphaRow] = girls[2];
+		alphaTable[alphaRow] = alphaGirl;
 		betaGirl = girls[0];
 		omegaGirl = girls[1];
 		setPlayerAndFight(alphaRow, haremBonusNutaku, boostCordy, boostGinseng);
@@ -942,14 +1025,14 @@ function simButtonClickAction (enButtonEvent) {
         // iterate through girls to set alpha, beta, omega
 		alphaRow = 0; // counter
 		alphaGirl = girls[0]; //NY Estelle
-        alphaTable[alphaRow] = girls[0];
+        alphaTable[alphaRow] = alphaGirl;
 		betaGirl = girls[1]; //Himari
 		omegaGirl = girls[2]; // Filya
         setPlayerAndFight(alphaRow,haremBonusHeh, boostCordy, boostGinseng);
 
 		alphaRow = 1; //counter
 		alphaGirl = girls[3]; //Shtupra
-		alphaTable[alphaRow] = girls[3];
+		alphaTable[alphaRow] = alphaGirl;
 		betaGirl = girls[0]; //NY Estelle
 		omegaGirl = girls[2];
         setPlayerAndFight(alphaRow, haremBonusHeh, boostCordy, boostGinseng);
@@ -977,14 +1060,14 @@ function simButtonClickAction (enButtonEvent) {
         // iterate through girls to set alpha, beta, omega
 		alphaRow = 0; //counter
 		alphaGirl = girls[0]; //NY Estelle
-        alphaTable[alphaRow] = girls[0];
+        alphaTable[alphaRow] = alphaGirl;
 		betaGirl = girls[1]; //Himari
 		omegaGirl = girls[2]; // Filya
 		setPlayerAndFight(alphaRow,haremBonusHeh, boostCordy, boostGinseng);
 
    		alphaRow = 1; //counter
 		alphaGirl = girls[3]; //Shtupra
-		alphaTable[alphaRow] = girls[3];
+		alphaTable[alphaRow] = alphaGirl;
 		betaGirl = girls[0]; //NY Estelle
 		omegaGirl = girls[2];
         setPlayerAndFight(alphaRow, haremBonusHeh, boostCordy, boostGinseng);
@@ -1000,14 +1083,14 @@ function simButtonClickAction (enButtonEvent) {
         // iterate through girls to set alpha, beta, omega
 		alphaRow = 0; //counter
 		alphaGirl = girls[0]; //NY Estelle
-        alphaTable[alphaRow] = girls[0];
+        alphaTable[alphaRow] = alphaGirl;
 		betaGirl = girls[1]; //Himari
 		omegaGirl = girls[2]; // Filya
 		setPlayerAndFight(alphaRow,haremBonusHeh, boostCordy, boostGinseng);
 
         alphaRow = 1; //counter
 		alphaGirl = girls[3]; //Shtupra
-		alphaTable[alphaRow] = girls[3];
+		alphaTable[alphaRow] = alphaGirl;
 		betaGirl = girls[0]; //NY Estelle
 		omegaGirl = girls[2];
         setPlayerAndFight(alphaRow, haremBonusHeh, boostCordy, boostGinseng);
@@ -1022,14 +1105,14 @@ function simButtonClickAction (enButtonEvent) {
         // iterate through girls to set alpha, beta, omega
 		alphaRow = 0; //counter
 		alphaGirl = girls[0]; //NY Estelle
-        alphaTable[alphaRow] = girls[0];
+        alphaTable[alphaRow] = alphaGirl;
 		betaGirl = girls[1]; //Himari
 		omegaGirl = girls[2]; // Filya
 		setPlayerAndFight(alphaRow,haremBonusHeh, boostCordy, boostGinseng);
 
         alphaRow = 1; //counter
 		alphaGirl = girls[3]; //Shtupra
-		alphaTable[alphaRow] = girls[3];
+		alphaTable[alphaRow] = alphaGirl;
 		betaGirl = girls[0]; //NY Estelle
 		omegaGirl = girls[2];
         setPlayerAndFight(alphaRow, haremBonusHeh, boostCordy, boostGinseng);
@@ -1041,12 +1124,8 @@ function simButtonClickAction (enButtonEvent) {
 
     //let myalpha = JSON.parse($('#leagues_left .girls_wrapper .team_girl[g=1]').attr('new-girl-tooltip-data'));
     //Hero.infos.id == 123 && window.location.hostname == "www.hentaiheroes.com"
-    console.log('das steht driN'+entryTextArea.innerHTML+'Hier');
     entryTextArea.innerHTML =	leer;
-    console.log('das steht driN'+entryTextArea.innerHTML+'Hier');
-
-
-
+    
     let tablea;
     let tablei = '<table>';
     let spalten=12; let zeilen=3;
