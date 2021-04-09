@@ -849,6 +849,48 @@ function simButtonClickAction (enButtonEvent) {
         result = result + '</table>';
         return result;
 	}
+	
+	/*
+	//alphaRows = length of Table 
+	// beta = girl[0] => if alpha == 0 -> girls[1]
+	// omega = girl[girls.length-1] => if alpha == -> girls[1]
+	function doSimulation(haremBonus, boostCordy, boostGinseng, alphaRow, alphaTable, alphaIndexes){
+		
+		for (i=0; i< alphaIndexes.length; i++) {
+			alphaRow = i; 
+			alphaGirl = girls[alphaIndexes[i]];
+			alphaTable[alphaRow] = alphaGirl;
+			if (i==0) {
+				betaGirl = girls[1];
+			} else {
+				betaGirl = girls[0];
+			}
+			if (i==(girls.length-1) {
+				omegaGirl = girls[1];
+			} else {
+				omegaGirl = girls[girls.length-1];
+			}
+			setPlayerAndFight(alphaRow, haremBonus, boostCordy, boostGinseng);
+		}
+		tableTemp = tableTemp + createTable(alphaTable, alphaTable.length, boostCordy, boostGinseng);
+	}*/
+
+	
+	//do all, no picking , results in a table body 
+	function simulateAllGirls1Booster(haremBonus, boostCordy, boostGinseng){
+		let result;
+		let alphaTable = new Array(girls.length);
+		resultArray = initResultArray2(girls.length, equips.length);
+		for (i=0; i < girls.length; i++) {
+			alphaGirl = girls[i];
+			alphaTable[i] = alphaGirl;
+			betaGirl = girls[i+1];
+			omegaGirl = girls[girls.length-1];
+			setPlayerAndFight(i, haremBonus, boostCordy, boostGinseng);
+		}
+		result = createTable(alphaTable, alphaTable.length, boostCordy, boostGinseng);
+	}
+		
 
     function doNutaku(){
         girls = setGirlsNutaku();
