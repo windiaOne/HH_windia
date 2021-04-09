@@ -10,4 +10,5 @@ business logic
 GUI
 - create a new button on desired page: https://stackoverflow.com/questions/6480082/add-a-javascript-button-using-greasemonkey-or-tampermonkey 
 - use insertRule to extract style information as CSS: https://www.mediaevent.de/javascript/insert-remove-rule.html
+- onclick again: https://linuxhint.com/javascript_onclick/
 - collapsible table: https://www.w3schools.com/howto/howto_js_collapsible.asp
